@@ -1,3 +1,6 @@
+using CompanyEmployees.Api.Extenstions;
+using Microsoft.AspNetCore.HttpOverrides;
+
 namespace CompanyEmployees.Api;
 
 public class Program
@@ -10,17 +13,30 @@ public class Program
 
         builder.Services.AddControllers();
 
+        builder.Services.ConfigureCors();
+
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
+        if (app.Environment.IsDevelopment())
+            app.UseDeveloperExceptionPage();
+        else
+            app.UseHsts();
 
         app.UseHttpsRedirection();
 
-        app.UseAuthorization();
+        app.UseForwardedHeaders(new ForwardedHeadersOptions()
+        {
+            ForwardedHeaders = ForwardedHeaders.All
+        });
 
+        app.UseCors("CorsPolicy");
+
+        app.UseAuthorization();
 
         app.MapControllers();
 
         app.Run();
+
     }
 }

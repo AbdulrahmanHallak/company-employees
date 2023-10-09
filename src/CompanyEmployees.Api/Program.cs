@@ -1,5 +1,7 @@
 using CompanyEmployees.Api.Extenstions;
 using Microsoft.AspNetCore.HttpOverrides;
+using NLog;
+using NLog.Web;
 
 namespace CompanyEmployees.Api;
 
@@ -7,36 +9,56 @@ public class Program
 {
     public static void Main(string[] args)
     {
-        var builder = WebApplication.CreateBuilder(args);
+        // Early init of NLog to allow startup and exception logging, before host is built
+        var logger = LogManager.Setup().LoadConfigurationFromFile(optional: false).GetCurrentClassLogger();
+        logger.Debug("init main");
 
-        // Add services to the container.
-
-        builder.Services.AddControllers();
-
-        builder.Services.ConfigureCors();
-
-        var app = builder.Build();
-
-        // Configure the HTTP request pipeline.
-        if (app.Environment.IsDevelopment())
-            app.UseDeveloperExceptionPage();
-        else
-            app.UseHsts();
-
-        app.UseHttpsRedirection();
-
-        app.UseForwardedHeaders(new ForwardedHeadersOptions()
+        try
         {
-            ForwardedHeaders = ForwardedHeaders.All
-        });
+            var builder = WebApplication.CreateBuilder(args);
 
-        app.UseCors("CorsPolicy");
+            builder.Logging.ClearProviders();
+            builder.Host.UseNLog();
 
-        app.UseAuthorization();
+            // Add services to the container.
 
-        app.MapControllers();
+            builder.Services.AddControllers();
 
-        app.Run();
+            builder.Services.ConfigureCors();
+
+            var app = builder.Build();
+
+            // Configure the HTTP request pipeline.
+            if (app.Environment.IsDevelopment())
+                app.UseDeveloperExceptionPage();
+            else
+                app.UseHsts();
+
+            app.UseHttpsRedirection();
+
+            app.UseForwardedHeaders(new ForwardedHeadersOptions()
+            {
+                ForwardedHeaders = ForwardedHeaders.All
+            });
+
+            app.UseCors("CorsPolicy");
+
+            app.UseAuthorization();
+
+            app.MapControllers();
+
+            app.Run();
+
+        }
+        catch (Exception ex)
+        {
+            logger.Fatal("Stopped program because of {exception}", ex);
+            throw;
+        }
+        finally
+        {
+            LogManager.Shutdown();
+        }
 
     }
 }

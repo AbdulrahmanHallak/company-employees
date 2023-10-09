@@ -10,4 +10,8 @@
     <Folder Include="Controllers/" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="NLog.Web.AspNetCore" Version="5.3.4" />
+  </ItemGroup>
+
 </Project>

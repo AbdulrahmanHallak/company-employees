@@ -1,4 +1,5 @@
 using CompanyEmployees.Api.Data.Models;
+using CompanyEmployees.Api.Data.SeedData;
 using Microsoft.EntityFrameworkCore;
 
 namespace CompanyEmployees.Api.Data;
@@ -37,5 +38,9 @@ public class CompanyContext : DbContext
         modelBuilder.Entity<Employee>()
             .Property(x => x.Position)
             .HasMaxLength(20);
+
+        // Adding seed data
+        modelBuilder.ApplyConfiguration(new CompanySeed());
+        modelBuilder.ApplyConfiguration(new EmployeeSeed());
     }
 }

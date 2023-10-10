@@ -1,5 +1,7 @@
+using CompanyEmployees.Api.Data;
 using CompanyEmployees.Api.Extenstions;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.EntityFrameworkCore;
 using NLog;
 using NLog.Web;
 
@@ -21,6 +23,9 @@ public class Program
             builder.Host.UseNLog();
 
             // Add services to the container.
+
+            builder.Services.AddDbContext<CompanyContext>(opts =>
+                opts.UseSqlite(builder.Configuration.GetConnectionString("sqliteConnection")));
 
             builder.Services.AddControllers();
 

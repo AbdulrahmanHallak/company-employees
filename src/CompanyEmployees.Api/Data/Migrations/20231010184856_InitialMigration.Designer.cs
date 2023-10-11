@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CompanyEmployees.Api.Data.Migrations
 {
-    [DbContext(typeof(CompanyContext))]
+    [DbContext(typeof(AppDbContext))]
     [Migration("20231010184856_InitialMigration")]
     partial class InitialMigration
     {

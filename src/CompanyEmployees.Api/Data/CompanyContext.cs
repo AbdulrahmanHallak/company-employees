@@ -3,12 +3,12 @@ using CompanyEmployees.Api.Data.SeedData;
 using Microsoft.EntityFrameworkCore;
 
 namespace CompanyEmployees.Api.Data;
-public class CompanyContext : DbContext
+public class AppDbContext : DbContext
 {
     public DbSet<Employee> Employees { get; set; }
     public DbSet<Company> Companies { get; set; }
 
-    public CompanyContext(DbContextOptions options) : base(options)
+    public AppDbContext(DbContextOptions options) : base(options)
     {
     }
 

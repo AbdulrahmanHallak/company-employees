@@ -23,7 +23,7 @@ public class Program
 
             // Add services to the container.
 
-            builder.Services.AddDbContext<CompanyContext>(opts =>
+            builder.Services.AddDbContext<AppDbContext>(opts =>
                 opts.UseSqlite(builder.Configuration.GetConnectionString("sqliteConnection")));
 
             builder.Services.AddControllers();

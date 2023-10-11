@@ -1,6 +1,5 @@
 using CompanyEmployees.Api.Data;
 using CompanyEmployees.Api.Extenstions;
-using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 using NLog;
 using NLog.Web;
@@ -41,10 +40,6 @@ public class Program
 
             app.UseHttpsRedirection();
 
-            app.UseForwardedHeaders(new ForwardedHeadersOptions()
-            {
-                ForwardedHeaders = ForwardedHeaders.All
-            });
 
             app.UseCors("CorsPolicy");
 

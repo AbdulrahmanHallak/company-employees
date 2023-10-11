@@ -1,5 +1,5 @@
 using CompanyEmployees.Api.Data;
-using CompanyEmployees.Api.Data.Models;
+using CompanyEmployees.Api.Data.Entities;
 using CompanyEmployees.Api.Interfaces;
 using Microsoft.EntityFrameworkCore;
 

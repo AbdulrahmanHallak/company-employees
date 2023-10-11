@@ -1,4 +1,4 @@
-namespace CompanyEmployees.Api.Data.Models;
+namespace CompanyEmployees.Api.Data.Entities;
 public class Employee
 {
     // All fields are required and they are set to default to suppress null warnings.

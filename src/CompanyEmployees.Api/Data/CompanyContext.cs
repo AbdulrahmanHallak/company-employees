@@ -1,4 +1,4 @@
-using CompanyEmployees.Api.Data.Models;
+using CompanyEmployees.Api.Data.Entities;
 using CompanyEmployees.Api.Data.SeedData;
 using Microsoft.EntityFrameworkCore;
 

@@ -1,4 +1,4 @@
-using CompanyEmployees.Api.Data.Models;
+using CompanyEmployees.Api.Data.Entities;
 
 namespace CompanyEmployees.Api.Interfaces;
 public interface ICompanyService

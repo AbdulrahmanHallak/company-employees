@@ -1,5 +1,7 @@
 using CompanyEmployees.Api.Data;
 using CompanyEmployees.Api.Extenstions;
+using CompanyEmployees.Api.Interfaces;
+using CompanyEmployees.Api.Services;
 using Microsoft.EntityFrameworkCore;
 using NLog;
 using NLog.Web;
@@ -25,6 +27,8 @@ public class Program
 
             builder.Services.AddDbContext<AppDbContext>(opts =>
                 opts.UseSqlite(builder.Configuration.GetConnectionString("sqliteConnection")));
+
+            builder.Services.AddScoped<ICompanyService, CompanyService>();
 
             builder.Services.AddControllers();
 

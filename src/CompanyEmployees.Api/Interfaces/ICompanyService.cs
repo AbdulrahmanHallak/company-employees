@@ -1,7 +1,7 @@
-using CompanyEmployees.Api.Data.Entities;
+using CompanyEmployees.Api.Models;
 
 namespace CompanyEmployees.Api.Interfaces;
 public interface ICompanyService
 {
-    public Task<IEnumerable<Company>> GetAllAsync(bool trackChanges, int count = 10);
+    public Task<IEnumerable<CompanyDto>> GetAllAsync(bool trackChanges, int count = 10);
 }

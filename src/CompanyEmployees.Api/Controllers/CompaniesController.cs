@@ -1,5 +1,7 @@
 using CompanyEmployees.Api.Interfaces;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using OneOf.Types;
 
 namespace CompanyEmployees.Api.Controllers;
 
@@ -19,5 +21,16 @@ public class CompaniesController : ControllerBase
     {
         var companies = await _service.GetAllAsync(true);
         return Ok(companies);
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetCompany(Guid id)
+    {
+        var result = await _service.GetAsync(false, id);
+        return result.Match<IActionResult>
+        (
+            Ok,
+            _ => NotFound($"There is no company with the provided {id}")
+        );
     }
 }

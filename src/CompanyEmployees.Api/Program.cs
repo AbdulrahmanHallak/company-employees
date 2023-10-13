@@ -26,7 +26,9 @@ public class Program
             // Add services to the container.
 
             builder.Services.AddDbContext<AppDbContext>(opts =>
-                opts.UseSqlite(builder.Configuration.GetConnectionString("sqliteConnection")));
+                opts.UseSqlite(builder.Configuration.GetConnectionString("sqliteConnection")
+                ?? throw new ArgumentNullException("The connection string cannot be null")));
+
 
             builder.Services.AddScoped<ICompanyService, CompanyService>();
 
@@ -43,7 +45,6 @@ public class Program
                 app.UseHsts();
 
             app.UseHttpsRedirection();
-
 
             app.UseCors("CorsPolicy");
 

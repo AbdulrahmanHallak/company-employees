@@ -40,7 +40,7 @@ public class AppDbContext : DbContext
             .HasMaxLength(20);
 
         // Adding seed data
-        modelBuilder.ApplyConfiguration(new CompanySeed());
-        modelBuilder.ApplyConfiguration(new EmployeeSeed());
+        // modelBuilder.ApplyConfiguration(new CompanySeed());
+        // modelBuilder.ApplyConfiguration(new EmployeeSeed());
     }
 }

@@ -31,6 +31,7 @@ public class Program
 
 
             builder.Services.AddScoped<ICompanyService, CompanyService>();
+            builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 
             builder.Services.AddControllers();
 

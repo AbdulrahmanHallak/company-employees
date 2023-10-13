@@ -18,29 +18,21 @@ public class CompanyService : ICompanyService
     }
     public async Task<IEnumerable<CompanyDto>> GetAsync(bool trackChanges, int count = 10)
     {
-        try
-        {
-            if (trackChanges)
-                return await _context.Companies.Select(x => new CompanyDto()
-                {
-                    Id = x.Id,
-                    Name = x.Name,
-                    FullAddress = string.Join(' ', x.Address, x.Country)
-                }).Take(count).ToListAsync();
+        if (trackChanges)
+            return await _context.Companies.Select(x => new CompanyDto()
+            {
+                Id = x.Id,
+                Name = x.Name,
+                FullAddress = string.Join(' ', x.Address, x.Country)
+            }).Take(count).ToListAsync();
 
-            else
-                return await _context.Companies.Select(x => new CompanyDto()
-                {
-                    Id = x.Id,
-                    Name = x.Name,
-                    FullAddress = string.Join(' ', x.Address, x.Country)
-                }).Take(count).AsNoTracking().ToListAsync();
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError("Error occured while retrieving entities from db {Exception}", ex);
-            throw;
-        }
+        else
+            return await _context.Companies.Select(x => new CompanyDto()
+            {
+                Id = x.Id,
+                Name = x.Name,
+                FullAddress = string.Join(' ', x.Address, x.Country)
+            }).Take(count).AsNoTracking().ToListAsync();
     }
     public async Task<OneOf<CompanyDto, NotFound>> GetAsync(bool trackChanges, Guid id)
     {

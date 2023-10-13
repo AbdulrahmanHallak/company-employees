@@ -19,7 +19,7 @@ public class CompaniesController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetCompanies()
     {
-        var companies = await _service.GetAllAsync(true);
+        var companies = await _service.GetAsync(true);
         return Ok(companies);
     }
 

@@ -16,7 +16,7 @@ public class CompanyService : ICompanyService
         _context = context;
         _logger = logger;
     }
-    public async Task<IEnumerable<CompanyDto>> GetAllAsync(bool trackChanges, int count = 10)
+    public async Task<IEnumerable<CompanyDto>> GetAsync(bool trackChanges, int count = 10)
     {
         try
         {

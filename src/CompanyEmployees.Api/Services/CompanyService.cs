@@ -27,12 +27,12 @@ public class CompanyService : ICompanyService
             }).Take(count).ToListAsync();
 
         else
-            return await _context.Companies.Select(x => new CompanyDto()
+            return await _context.Companies.AsNoTracking().Select(x => new CompanyDto()
             {
                 Id = x.Id,
                 Name = x.Name,
                 FullAddress = string.Join(' ', x.Address, x.Country)
-            }).Take(count).AsNoTracking().ToListAsync();
+            }).Take(count).ToListAsync();
     }
     public async Task<OneOf<CompanyDto, NotFound>> GetAsync(bool trackChanges, Guid id)
     {
@@ -45,7 +45,7 @@ public class CompanyService : ICompanyService
                  {
                      Id = comp.Id,
                      Name = comp.Name,
-                     FullAddress = $"{comp.Address} {comp.Country}"
+                     FullAddress = string.Join(' ', comp.Address, comp.Country)
                  }).SingleOrDefaultAsync();
 
         else
@@ -56,7 +56,7 @@ public class CompanyService : ICompanyService
                  {
                      Id = comp.Id,
                      Name = comp.Name,
-                     FullAddress = $"{comp.Address} {comp.Country}"
+                     FullAddress = string.Join(' ', comp.Address, comp.Country)
                  }).SingleOrDefaultAsync();
 
         if (company is null)

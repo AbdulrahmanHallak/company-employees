@@ -1,3 +1,4 @@
+using CompanyEmployees.Api.Errors;
 using CompanyEmployees.Api.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,12 +15,22 @@ public class EmployeesController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetEmployeesAsync(Guid companyId)
     {
-        var result = await _service.GetAsync(false, companyId);
+        var result = await _service.GetAsync(companyId);
         return result.Match<IActionResult>
         (
             Ok,
-            _ => NotFound($"There is no company with the provided {companyId}")
+            NotFound
         );
     }
 
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetEmployeeAsync(Guid companyId, Guid id)
+    {
+        var result = await _service.GetAsync(companyId, id);
+        return result.Match<IActionResult>
+        (
+            Ok,
+            NotFound
+        );
+    }
 }

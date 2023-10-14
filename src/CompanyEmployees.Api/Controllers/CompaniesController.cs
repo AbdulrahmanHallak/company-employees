@@ -19,14 +19,14 @@ public class CompaniesController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetCompanies()
     {
-        var companies = await _service.GetAsync(true);
+        var companies = await _service.GetAsync();
         return Ok(companies);
     }
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetCompany(Guid id)
     {
-        var result = await _service.GetAsync(false, id);
+        var result = await _service.GetAsync(id);
         return result.Match<IActionResult>
         (
             Ok,

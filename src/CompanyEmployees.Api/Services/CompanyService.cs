@@ -16,48 +16,27 @@ public class CompanyService : ICompanyService
         _context = context;
         _logger = logger;
     }
-    public async Task<IEnumerable<CompanyDto>> GetAsync(bool trackChanges, int count = 10)
+    public async Task<IEnumerable<CompanyDto>> GetAsync(int count = 10)
     {
-        if (trackChanges)
-            return await _context.Companies.Select(x => new CompanyDto()
-            {
-                Id = x.Id,
-                Name = x.Name,
-                FullAddress = string.Join(' ', x.Address, x.Country)
-            }).Take(count).ToListAsync();
-
-        else
-            return await _context.Companies.AsNoTracking().Select(x => new CompanyDto()
-            {
-                Id = x.Id,
-                Name = x.Name,
-                FullAddress = string.Join(' ', x.Address, x.Country)
-            }).Take(count).ToListAsync();
+        return await _context.Companies.AsNoTracking().Select(x => new CompanyDto()
+        {
+            Id = x.Id,
+            Name = x.Name,
+            FullAddress = string.Join(' ', x.Address, x.Country)
+        }).Take(count).ToListAsync();
     }
-    public async Task<OneOf<CompanyDto, NotFound>> GetAsync(bool trackChanges, Guid id)
+    public async Task<OneOf<CompanyDto, NotFound>> GetAsync(Guid id)
     {
         CompanyDto? company;
-        if (trackChanges)
-            company = await
-                (from comp in _context.Companies
-                 where comp.Id == id
-                 select new CompanyDto()
-                 {
-                     Id = comp.Id,
-                     Name = comp.Name,
-                     FullAddress = string.Join(' ', comp.Address, comp.Country)
-                 }).SingleOrDefaultAsync();
-
-        else
-            company = await
-                (from comp in _context.Companies.AsNoTracking()
-                 where comp.Id == id
-                 select new CompanyDto()
-                 {
-                     Id = comp.Id,
-                     Name = comp.Name,
-                     FullAddress = string.Join(' ', comp.Address, comp.Country)
-                 }).SingleOrDefaultAsync();
+        company = await
+            (from comp in _context.Companies.AsNoTracking()
+             where comp.Id == id
+             select new CompanyDto()
+             {
+                 Id = comp.Id,
+                 Name = comp.Name,
+                 FullAddress = string.Join(' ', comp.Address, comp.Country)
+             }).SingleOrDefaultAsync();
 
         if (company is null)
         {

@@ -1,4 +1,5 @@
 using CompanyEmployees.Api.Data;
+using CompanyEmployees.Api.Data.Entities;
 using CompanyEmployees.Api.Interfaces;
 using CompanyEmployees.Api.Models;
 using Microsoft.EntityFrameworkCore;
@@ -44,5 +45,33 @@ public class CompanyService : ICompanyService
             return new NotFound();
         }
         else return company;
+    }
+
+    public async Task<OneOf<CompanyDto, Error>> CreateAsync(CompanyForCreateDto dto)
+    {
+        // Map to entity.
+        var company = new Company()
+        {
+            Name = dto.Name,
+            Address = dto.Address,
+            Country = dto.Country
+        };
+
+        _context.Companies.Add(company);
+        try
+        {
+            await _context.SaveChangesAsync();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError("the following exception was thrown when saving {@Entity}: {Exception}", company, ex);
+            return new Error();
+        }
+        return new CompanyDto()
+        {
+            Id = company.Id,
+            Name = company.Name,
+            FullAddress = string.Join(' ', company.Address, company.Country)
+        };
     }
 }

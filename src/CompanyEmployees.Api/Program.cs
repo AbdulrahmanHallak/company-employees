@@ -2,6 +2,7 @@ using CompanyEmployees.Api.Data;
 using CompanyEmployees.Api.Extenstions;
 using CompanyEmployees.Api.Interfaces;
 using CompanyEmployees.Api.Services;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NLog;
 using NLog.Web;
@@ -36,6 +37,8 @@ public class Program
             builder.Services.AddControllers(opts =>
             {
                 opts.RespectBrowserAcceptHeader = true;
+                opts.ReturnHttpNotAcceptable = true;
+                opts.OutputFormatters.Add(new CsvOutputFormatter());
             }).AddXmlDataContractSerializerFormatters();
 
             builder.Services.ConfigureCors();

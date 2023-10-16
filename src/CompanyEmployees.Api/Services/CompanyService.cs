@@ -1,10 +1,10 @@
 using CompanyEmployees.Api.Data;
 using CompanyEmployees.Api.Data.Entities;
+using CompanyEmployees.Api.Errors;
 using CompanyEmployees.Api.Interfaces;
 using CompanyEmployees.Api.Models;
 using Microsoft.EntityFrameworkCore;
 using OneOf;
-using OneOf.Types;
 
 namespace CompanyEmployees.Api.Services;
 public class CompanyService : ICompanyService
@@ -26,7 +26,7 @@ public class CompanyService : ICompanyService
             FullAddress = string.Join(' ', x.Address, x.Country)
         }).Take(count).ToListAsync();
     }
-    public async Task<OneOf<CompanyDto, NotFound>> GetAsync(Guid id)
+    public async Task<OneOf<CompanyDto, NotFoundError>> GetAsync(Guid id)
     {
         CompanyDto? company;
         company = await
@@ -42,12 +42,12 @@ public class CompanyService : ICompanyService
         if (company is null)
         {
             _logger.LogWarning("A request to retrieve a company with a non exsistent id {Id}", id);
-            return new NotFound();
+            return new NotFoundError("There is no company with the provided id", id.ToString());
         }
         else return company;
     }
 
-    public async Task<OneOf<CompanyDto, Error>> CreateAsync(CompanyForCreateDto dto)
+    public async Task<OneOf<CompanyDto, InternalServerError>> CreateAsync(CompanyForCreateDto dto)
     {
         // Map to entity.
         var company = new Company()
@@ -65,7 +65,7 @@ public class CompanyService : ICompanyService
         catch (Exception ex)
         {
             _logger.LogError("the following exception was thrown when saving {@Entity}: {Exception}", company, ex);
-            return new Error();
+            return new InternalServerError("An error occurred while processing the request. Please contact support");
         }
         return new CompanyDto()
         {

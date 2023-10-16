@@ -31,7 +31,7 @@ public class CompaniesController : ControllerBase
         return result.Match<IActionResult>
         (
             Ok,
-            _ => NotFound($"There is no company with the provided {id}")
+            NotFound
         );
     }
 

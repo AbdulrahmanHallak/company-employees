@@ -42,7 +42,7 @@ public class CompaniesController : ControllerBase
         return result.Match<IActionResult>
         (
             company => CreatedAtAction(nameof(GetCompanies), new { id = company.Id }, company),
-            err => StatusCode(StatusCodes.Status500InternalServerError)
+            err => new ObjectResult(err) { StatusCode = 500 }
         );
     }
 }

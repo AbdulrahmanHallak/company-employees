@@ -41,7 +41,7 @@ public class CompaniesController : ControllerBase
         var result = await _service.CreateAsync(dto);
         return result.Match<IActionResult>
         (
-            company => CreatedAtAction(nameof(GetCompanies), new { id = company.Id }, company),
+            company => CreatedAtAction(nameof(GetCompany), new { id = company.Id }, company),
             err => new ObjectResult(err) { StatusCode = 500 }
         );
     }

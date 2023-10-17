@@ -2,7 +2,7 @@ using CompanyEmployees.Api.Errors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CompanyEmployees.Api.Errors;
-public class NotFoundError : Error
+public sealed class NotFoundError : Error
 {
     public string Id { get; private set; }
     public override string Title { get; protected set; } = "Not Found";

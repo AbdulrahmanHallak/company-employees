@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 
 namespace CompanyEmployees.Api.Errors;
-public class InternalServerError : Error
+public sealed class InternalServerError : Error
 {
     public override string Title { get; protected set; } = "Internal server error";
     public override int StatusCode { get; protected set; } = 500;

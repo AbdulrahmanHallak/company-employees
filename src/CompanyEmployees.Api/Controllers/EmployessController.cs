@@ -14,7 +14,7 @@ public class EmployeesController : ControllerBase
     public EmployeesController(IEmployeeService service) => _service = service;
 
     [HttpGet]
-    public async Task<IActionResult> GetEmployeesAsync(Guid companyId)
+    public async Task<IActionResult> GetEmployees(Guid companyId)
     {
         var result = await _service.GetAsync(companyId);
         return result.Match<IActionResult>
@@ -25,7 +25,7 @@ public class EmployeesController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetEmployeeAsync(Guid companyId, Guid id)
+    public async Task<IActionResult> GetEmployee(Guid companyId, Guid id)
     {
         var result = await _service.GetAsync(companyId, id);
         return result.Match<IActionResult>
@@ -36,12 +36,12 @@ public class EmployeesController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreatEmployeeAsync(Guid companyId, EmployeeForCreateDto dto)
+    public async Task<IActionResult> CreatEmployee(Guid companyId, EmployeeForCreateDto dto)
     {
         var result = await _service.CreateAsync(companyId, dto);
         return result.Match
         (
-            dto => CreatedAtAction("GetEmployee", new { companyId, id = dto.Id }, dto),
+            dto => CreatedAtAction(nameof(GetEmployee), new { companyId, id = dto.Id }, dto),
             NotFound,
             err => new ObjectResult(err) { StatusCode = 500 }
         );

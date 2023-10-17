@@ -54,7 +54,10 @@ public class CompanyService : ICompanyService
         {
             Name = dto.Name,
             Address = dto.Address,
-            Country = dto.Country
+            Country = dto.Country,
+            // The user has the option to include a list of employees in the same request for creating a company,
+            // thus eliminating the need to make a separate request for creating employees associated with the newly created company.
+            Employees = dto.Employees?.Select(x => new Employee() { Age = x.Age, Name = x.Name, Position = x.Position }).ToList()!
         };
 
         _context.Companies.Add(company);

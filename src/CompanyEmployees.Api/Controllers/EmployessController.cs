@@ -1,5 +1,6 @@
 using CompanyEmployees.Api.Errors;
 using CompanyEmployees.Api.Interfaces;
+using CompanyEmployees.Api.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Namespace;
@@ -31,6 +32,18 @@ public class EmployeesController : ControllerBase
         (
             Ok,
             NotFound
+        );
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> CreatEmployeeAsync(Guid companyId, EmployeeForCreateDto dto)
+    {
+        var result = await _service.CreateAsync(companyId, dto);
+        return result.Match
+        (
+            dto => CreatedAtAction("GetEmployee", new { companyId, id = dto.Id }, dto),
+            NotFound,
+            err => new ObjectResult(err) { StatusCode = 500 }
         );
     }
 }

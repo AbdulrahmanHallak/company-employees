@@ -41,7 +41,7 @@ public class CompanyService : ICompanyService
 
         if (company is null)
         {
-            _logger.LogWarning("A request to retrieve a company with a non exsistent id {Id}", id);
+            _logger.LogWarning("A request to retrieve a company with a non exsistent id {CompanyId}", id);
             return new NotFoundError("There is no company with the provided id", id.ToString());
         }
         else return company;

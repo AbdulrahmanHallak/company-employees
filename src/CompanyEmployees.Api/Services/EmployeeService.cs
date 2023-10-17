@@ -24,7 +24,7 @@ public class EmployeeService : IEmployeeService
         var company = await _context.Companies.FindAsync(companyId);
         if (company is null)
         {
-            _logger.LogWarning("A request to retrieve employees of a company with a non-exsistent id {Id}", companyId);
+            _logger.LogWarning("A request to retrieve employees of a company with a non-exsistent id {CompanyId}", companyId);
             return new NotFoundError(message: "There is no company with the provided id", id: companyId.ToString());
         }
 
@@ -50,7 +50,7 @@ public class EmployeeService : IEmployeeService
         var company = await _context.Companies.FindAsync(companyId);
         if (company is null)
         {
-            _logger.LogWarning("A request to retrieve employees of a company with a non-exsistent id {Id}", companyId);
+            _logger.LogWarning("A request to retrieve employees of a company with a non-exsistent id {ComopanyId}", companyId);
             return new NotFoundError(message: "There is no company with the provided Id", id: companyId.ToString());
         }
 
@@ -68,7 +68,7 @@ public class EmployeeService : IEmployeeService
 
         if (employee is null)
         {
-            _logger.LogWarning("A request to retrieve a employee with a non exsistent id {Id}", id);
+            _logger.LogWarning("A request to retrieve a employee with a non exsistent id {EmployeeId}", id);
             return new NotFoundError(message: "There is no employee with the provided Id", id: id.ToString());
         }
         else return employee;
@@ -80,7 +80,7 @@ public class EmployeeService : IEmployeeService
         var company = await _context.Companies.FindAsync(companyId);
         if (company is null)
         {
-            _logger.LogWarning("A request to create an employee entity for a company with a non-exsistent id {Id}", companyId);
+            _logger.LogWarning("A request to create an employee entity for a company with a non-exsistent id {CompanyId}", companyId);
             return new NotFoundError(message: "There is no company with the provided Id", id: companyId.ToString());
         }
         // Map to entity.

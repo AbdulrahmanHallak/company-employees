@@ -7,5 +7,5 @@ public class CompanyForCreateDto
 
     // The user has the option to include a list of employees in the same request for creating a company,
     // thus eliminating the need to make a separate request for creating employees associated with the newly created company.
-    public ICollection<EmployeeForCreateDto>? Employees { get; set; }
+    public IEnumerable<EmployeeForCreateDto>? Employees { get; set; }
 }

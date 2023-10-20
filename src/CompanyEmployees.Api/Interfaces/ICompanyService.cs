@@ -12,4 +12,5 @@ public interface ICompanyService
     public Task<OneOf<IEnumerable<CompanyDto>, NotFoundCollectionError>> GetCollectionAsync(IEnumerable<Guid> ids);
     public Task<OneOf<CompanyDto, InternalServerError>> CreateAsync(CompanyForCreateDto dto);
     public Task DeleteAsync(Guid id);
+    public Task<OneOf<Success, NotFoundError>> UpdateAsync(Guid id, CompanyForUpdateDto dto);
 }

@@ -52,4 +52,15 @@ public class EmployeesController : ControllerBase
         await _service.DeleteAsync(id);
         return NoContent();
     }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateEmployee(Guid companyId, Guid id, EmployeeForUpdateDto dto)
+    {
+        var result = await _service.UpdateEmployeeAsync(companyId, id, dto);
+        return result.Match<IActionResult>
+        (
+            success => NoContent(),
+            err => NotFound(err.ToProblemDetails())
+        );
+    }
 }

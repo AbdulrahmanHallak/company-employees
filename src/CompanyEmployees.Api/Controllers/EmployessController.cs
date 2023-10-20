@@ -56,7 +56,7 @@ public class EmployeesController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateEmployee(Guid companyId, Guid id, EmployeeForUpdateDto dto)
     {
-        var result = await _service.UpdateEmployeeAsync(companyId, id, dto);
+        var result = await _service.UpdateAsync(companyId, id, dto);
         return result.Match<IActionResult>
         (
             success => NoContent(),

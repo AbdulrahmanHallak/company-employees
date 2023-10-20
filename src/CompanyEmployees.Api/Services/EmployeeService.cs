@@ -125,7 +125,7 @@ public class EmployeeService : IEmployeeService
         await _context.SaveChangesAsync();
     }
 
-    public async Task<OneOf<Success, NotFoundError>> UpdateEmployeeAsync(Guid companyId, Guid employeeId, EmployeeForUpdateDto dto)
+    public async Task<OneOf<Success, NotFoundError>> UpdateAsync(Guid companyId, Guid employeeId, EmployeeForUpdateDto dto)
     {
         // Check if company and employee exist:
         var company = await _context.Companies.FindAsync(companyId);

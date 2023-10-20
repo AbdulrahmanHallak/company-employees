@@ -14,5 +14,5 @@ public interface IEmployeeService
 
     public Task DeleteAsync(Guid id);
 
-    public Task<OneOf<Success, NotFoundError>> UpdateEmployeeAsync(Guid companyId, Guid employeeId, EmployeeForUpdateDto dto);
+    public Task<OneOf<Success, NotFoundError>> UpdateAsync(Guid companyId, Guid employeeId, EmployeeForUpdateDto dto);
 }

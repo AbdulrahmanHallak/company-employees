@@ -110,4 +110,17 @@ public class EmployeeService : IEmployeeService
             Position = employee.Position,
         };
     }
+
+    public async Task DeleteAsync(Guid id)
+    {
+        var employee = await _context.Employees.FindAsync(id);
+        if (employee is null)
+        {
+            _logger.LogWarning("Request to delete a non-existent employee with the following id: {EmployeeId}", id);
+            return;
+        }
+
+        _context.Remove(employee);
+        await _context.SaveChangesAsync();
+    }
 }

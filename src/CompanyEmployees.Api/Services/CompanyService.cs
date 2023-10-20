@@ -99,10 +99,22 @@ public class CompanyService : ICompanyService
             var list = new List<Guid>();
             foreach (var item in notFound)
                 list.Add(item);
-                dict.Add("Not Found", list);
+            dict.Add("Not Found", list);
             return new NotFoundCollectionError("One or more companies with the following id do not exist in the database", dict);
         }
         else
             return result;
+    }
+
+    public async Task DeleteAsync(Guid id)
+    {
+        var company = await _context.Companies.FindAsync(id);
+        if (company is null)
+        {
+            _logger.LogWarning("Request to delete a non-existent company with the following id: {CompnayId}", id);
+            return;
+        }
+        _context.Remove(company);
+        await _context.SaveChangesAsync();
     }
 }

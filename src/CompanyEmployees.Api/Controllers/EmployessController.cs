@@ -45,4 +45,11 @@ public class EmployeesController : ControllerBase
             internalServerError => new ObjectResult(internalServerError.ToProblemDetails()) { StatusCode = 500 }
         );
     }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteEmployee(Guid id)
+    {
+        await _service.DeleteAsync(id);
+        return NoContent();
+    }
 }

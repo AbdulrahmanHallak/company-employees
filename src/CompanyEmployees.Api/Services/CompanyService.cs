@@ -77,4 +77,32 @@ public class CompanyService : ICompanyService
             FullAddress = string.Join(' ', company.Address, company.Country)
         };
     }
+
+    public async Task<OneOf<IEnumerable<CompanyDto>, NotFoundCollectionError>> GetCollectionAsync(IEnumerable<Guid> ids)
+    {
+        var result = await
+            (from company in _context.Companies.AsNoTracking()
+             where ids.Contains(company.Id)
+             select new CompanyDto()
+             {
+                 Id = company.Id,
+                 Name = company.Name,
+                 FullAddress = string.Join(' ', company.Address, company.Country)
+             }).ToListAsync();
+
+        if (result.Count != ids.Count())
+        {
+            var notFound = ids.Except(result.Select(x => x.Id)); // extract the ids that are not present in the db.
+            _logger.LogWarning("Request to retrieve company collection." +
+                "One or more provided ids does exist in the database {@NotFoundIds}", notFound);
+            var dict = new Dictionary<string, List<Guid>>(); // This dictionary is to necessary to populate the Extension dict in ProblemDetails.
+            var list = new List<Guid>();
+            foreach (var item in notFound)
+                list.Add(item);
+                dict.Add("Not Found", list);
+            return new NotFoundCollectionError("One or more companies with the following id do not exist in the database", dict);
+        }
+        else
+            return result;
+    }
 }

@@ -65,4 +65,15 @@ public class CompaniesController : ControllerBase
         await _service.DeleteAsync(id);
         return NoContent();
     }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateCompany(Guid id, CompanyForUpdateDto dto)
+    {
+        var result = await _service.UpdateAsync(id, dto);
+        return result.Match<IActionResult>
+        (
+            success => NoContent(),
+            err => NotFound(err.ToProblemDetails())
+        );
+    }
 }

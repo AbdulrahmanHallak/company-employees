@@ -58,4 +58,11 @@ public class CompaniesController : ControllerBase
     //         err => NotFound(err.ToProblemDetails())
     //     );
     // }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteCompany(Guid id)
+    {
+        await _service.DeleteAsync(id);
+        return NoContent();
+    }
 }

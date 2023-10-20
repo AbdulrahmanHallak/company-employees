@@ -5,6 +5,7 @@ using CompanyEmployees.Api.Interfaces;
 using CompanyEmployees.Api.Models;
 using Microsoft.EntityFrameworkCore;
 using OneOf;
+using OneOf.Types;
 
 namespace CompanyEmployees.Api.Services;
 public class EmployeeService : IEmployeeService
@@ -122,5 +123,31 @@ public class EmployeeService : IEmployeeService
 
         _context.Remove(employee);
         await _context.SaveChangesAsync();
+    }
+
+    public async Task<OneOf<Success, NotFoundError>> UpdateEmployeeAsync(Guid companyId, Guid employeeId, EmployeeForUpdateDto dto)
+    {
+        // Check if company and employee exist:
+        var company = await _context.Companies.FindAsync(companyId);
+        if (company is null)
+        {
+            _logger.LogWarning("A request to update a company with a non exsistent id {CompanyId}", companyId);
+            return new NotFoundError("There is no company with the provided id", companyId.ToString());
+        }
+        var employee = await _context.Employees.FindAsync(employeeId);
+        if (employee is null)
+        {
+            _logger.LogWarning("A request to update an employee with a non exsistent id {EmployeeId}", employeeId);
+            return new NotFoundError(message: "There is no employee with the provided Id", id: employeeId.ToString());
+        }
+
+        // mapping to entity:
+        employee.Position = dto.Position;
+        employee.Name = dto.Name;
+        employee.Age = dto.Age;
+
+        await _context.SaveChangesAsync();
+
+        return new Success();
     }
 }

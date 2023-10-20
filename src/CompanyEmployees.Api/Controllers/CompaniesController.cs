@@ -52,7 +52,7 @@ public class CompaniesController : ControllerBase
         return result.Match<IActionResult>
         (
             Ok,
-            err => BadRequest(err.ToProblemDetails())
+            err => NotFound(err.ToProblemDetails())
         );
     }
 }

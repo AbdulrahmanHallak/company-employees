@@ -1,4 +1,3 @@
-using CompanyEmployees.Api.Errors;
 using CompanyEmployees.Api.Interfaces;
 using CompanyEmployees.Api.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +19,7 @@ public class EmployeesController : ControllerBase
         return result.Match<IActionResult>
         (
             Ok,
-            NotFound
+            err => NotFound(err.ToProblemDetails())
         );
     }
 
@@ -31,7 +30,7 @@ public class EmployeesController : ControllerBase
         return result.Match<IActionResult>
         (
             Ok,
-            NotFound
+            err => NotFound(err.ToProblemDetails())
         );
     }
 
@@ -42,8 +41,8 @@ public class EmployeesController : ControllerBase
         return result.Match
         (
             dto => CreatedAtAction(nameof(GetEmployee), new { companyId, id = dto.Id }, dto),
-            NotFound,
-            err => new ObjectResult(err) { StatusCode = 500 }
+            notFoundError => NotFound(notFoundError.ToProblemDetails()),
+            internalServerError => new ObjectResult(internalServerError.ToProblemDetails()) { StatusCode = 500 }
         );
     }
 }

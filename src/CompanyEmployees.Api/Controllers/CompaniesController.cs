@@ -1,8 +1,6 @@
 using CompanyEmployees.Api.Interfaces;
 using CompanyEmployees.Api.Models;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using OneOf.Types;
 
 namespace CompanyEmployees.Api.Controllers;
 
@@ -43,6 +41,18 @@ public class CompaniesController : ControllerBase
         (
             company => CreatedAtAction(nameof(GetCompany), new { id = company.Id }, company),
             err => new ObjectResult(err) { StatusCode = 500 }
+        );
+    }
+
+    [HttpGet("collection")]
+
+    public async Task<IActionResult> GetCompanyCollection(IEnumerable<Guid> ids)
+    {
+        var result = await _service.GetCollectionAsync(ids);
+        return result.Match<IActionResult>  
+        (
+            Ok,
+            err => BadRequest(err.ToProblemDetails())
         );
     }
 }

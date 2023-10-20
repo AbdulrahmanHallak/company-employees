@@ -43,16 +43,19 @@ public class CompaniesController : ControllerBase
             err => new ObjectResult(err.ToProblemDetails()) { StatusCode = 500 }
         );
     }
+    // ? Is there a use case for this method
+    // * if this method is exposed, a new POST endpoint must be created to handle creating a
+    // * collection of companies.
+    // ! if decided to remove this endpoint, the methods in the CompanyService should be removed as well.
 
-    [HttpGet("collection")]
-
-    public async Task<IActionResult> GetCompanyCollection(IEnumerable<Guid> ids)
-    {
-        var result = await _service.GetCollectionAsync(ids);
-        return result.Match<IActionResult>
-        (
-            Ok,
-            err => NotFound(err.ToProblemDetails())
-        );
-    }
+    // [HttpGet("collection")]
+    // public async Task<IActionResult> GetCompanyCollection(IEnumerable<Guid> ids)
+    // {
+    //     var result = await _service.GetCollectionAsync(ids);
+    //     return result.Match<IActionResult>
+    //     (
+    //         Ok,
+    //         err => NotFound(err.ToProblemDetails())
+    //     );
+    // }
 }

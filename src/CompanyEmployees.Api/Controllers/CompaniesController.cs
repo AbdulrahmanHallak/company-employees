@@ -29,7 +29,7 @@ public class CompaniesController : ControllerBase
         return result.Match<IActionResult>
         (
             Ok,
-            NotFound
+            err => NotFound(err.ToProblemDetails())
         );
     }
 
@@ -40,7 +40,7 @@ public class CompaniesController : ControllerBase
         return result.Match<IActionResult>
         (
             company => CreatedAtAction(nameof(GetCompany), new { id = company.Id }, company),
-            err => new ObjectResult(err) { StatusCode = 500 }
+            err => new ObjectResult(err.ToProblemDetails()) { StatusCode = 500 }
         );
     }
 
@@ -49,7 +49,7 @@ public class CompaniesController : ControllerBase
     public async Task<IActionResult> GetCompanyCollection(IEnumerable<Guid> ids)
     {
         var result = await _service.GetCollectionAsync(ids);
-        return result.Match<IActionResult>  
+        return result.Match<IActionResult>
         (
             Ok,
             err => BadRequest(err.ToProblemDetails())

@@ -1,3 +1,4 @@
+using System.Diagnostics.Tracing;
 using CompanyEmployees.Api.Data;
 using CompanyEmployees.Api.Data.Entities;
 using CompanyEmployees.Api.Errors;
@@ -149,5 +150,41 @@ public class EmployeeService : IEmployeeService
         await _context.SaveChangesAsync();
 
         return new Success();
+    }
+
+    public async Task<OneOf<EmployeeForUpdateDto, NotFoundError>> GetForPatch(Guid companyId, Guid id)
+    {
+        var company = await _context.Companies.FindAsync(companyId);
+        if (company is null)
+        {
+            _logger.LogWarning("A request to patch a company with a non exsistent id {CompanyId}", companyId);
+            return new NotFoundError("There is no company with the provided id", companyId.ToString());
+        }
+        var employee = await _context.Employees.FindAsync(id);
+        if (employee is null)
+        {
+            _logger.LogWarning("A request to update an employee with a non exsistent id {EmployeeId}", id);
+            return new NotFoundError(message: "There is no employee with the provided Id", id: id.ToString());
+        }
+
+        var dto = new EmployeeForUpdateDto()
+        {
+            Name = employee.Name,
+            Age = employee.Age,
+            Position = employee.Position
+        };
+
+        return dto;
+    }
+
+    public async Task SaveChangesForPatch(EmployeeForUpdateDto dto, Guid id)
+    {
+        var entity = await _context.Employees.FindAsync(id);
+        // ? How to handle nullablity.
+        // * handling not found is already done in the GetForPatch method.
+        entity!.Name = dto.Name;
+        entity.Age = dto.Age;
+        entity.Position = dto.Position;
+        await _context.SaveChangesAsync();
     }
 }

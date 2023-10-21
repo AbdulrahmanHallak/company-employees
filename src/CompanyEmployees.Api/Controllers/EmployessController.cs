@@ -1,5 +1,6 @@
 using CompanyEmployees.Api.Interfaces;
 using CompanyEmployees.Api.Models;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Namespace;
@@ -62,5 +63,23 @@ public class EmployeesController : ControllerBase
             success => NoContent(),
             err => NotFound(err.ToProblemDetails())
         );
+    }
+
+    [HttpPatch("{id}")]
+    public async Task<IActionResult> PatchEmployee(Guid companyId, Guid id, [FromBody] JsonPatchDocument<EmployeeForUpdateDto> pathDoc)
+    {
+        var result = await _service.GetForPatch(companyId, id);
+
+        if (result.IsT1)
+            return NotFound(result.AsT1.ToProblemDetails());
+
+        pathDoc.ApplyTo(result.AsT0, ModelState);
+
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        await _service.SaveChangesForPatch(result.AsT0, id);
+
+        return NoContent();
     }
 }

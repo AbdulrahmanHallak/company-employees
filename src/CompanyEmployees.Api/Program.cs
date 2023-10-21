@@ -39,6 +39,7 @@ public class Program
                 opts.RespectBrowserAcceptHeader = true;
                 opts.ReturnHttpNotAcceptable = true;
                 opts.OutputFormatters.Add(new CsvOutputFormatter());
+                opts.InputFormatters.Insert(0 , JsonPatchInputFormatter.GetJsonPatchInputFormatter());
             }).AddXmlDataContractSerializerFormatters();
 
             builder.Services.ConfigureCors();

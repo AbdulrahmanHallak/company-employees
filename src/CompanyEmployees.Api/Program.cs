@@ -1,5 +1,5 @@
 using CompanyEmployees.Api.Data;
-using CompanyEmployees.Api.Extenstions;
+using CompanyEmployees.Api.Configuration;
 using CompanyEmployees.Api.Interfaces;
 using CompanyEmployees.Api.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -39,7 +39,7 @@ public class Program
                 opts.RespectBrowserAcceptHeader = true;
                 opts.ReturnHttpNotAcceptable = true;
                 opts.OutputFormatters.Add(new CsvOutputFormatter());
-                opts.InputFormatters.Insert(0 , JsonPatchInputFormatter.GetJsonPatchInputFormatter());
+                opts.InputFormatters.Insert(0, JsonPatchInputFormatter.GetJsonPatchInputFormatter());
             }).AddXmlDataContractSerializerFormatters();
 
             builder.Services.ConfigureCors();

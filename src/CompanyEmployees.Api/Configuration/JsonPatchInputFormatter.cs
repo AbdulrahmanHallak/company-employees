@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Options;
 
-namespace CompanyEmployees.Api.Extenstions;
+namespace CompanyEmployees.Api.Configuration;
 public class JsonPatchInputFormatter
 {
     public static NewtonsoftJsonInputFormatter GetJsonPatchInputFormatter()

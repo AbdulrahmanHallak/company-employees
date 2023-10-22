@@ -8,14 +8,17 @@ public class CompanyForUpdateValidator : AbstractValidator<CompanyForUpdateDto>
     {
         RuleFor(x => x.Name)
         .NotNull()
+        .NotEmpty()
         .MaximumLength(60);
 
         RuleFor(x => x.Address)
         .NotNull()
+        .NotEmpty()
         .MaximumLength(60);
 
         RuleFor(x => x.Country)
         .NotNull()
+        .NotEmpty()
         .MaximumLength(40);
 
         RuleFor(x => x.Employees)

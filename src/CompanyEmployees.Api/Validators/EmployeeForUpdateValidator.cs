@@ -8,12 +8,14 @@ public class EmployeeForUpdateValidator : AbstractValidator<EmployeeForUpdateDto
     {
         RuleFor(x => x.Name)
         .NotNull()
+        .NotEmpty()
         .MaximumLength(30);
 
         RuleFor(x => x.Age).NotNull().GreaterThanOrEqualTo(18);
 
         RuleFor(x => x.Position)
         .NotNull()
+        .NotEmpty()
         .MaximumLength(20);
     }
 }

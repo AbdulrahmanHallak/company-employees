@@ -1,5 +1,7 @@
+using CompanyEmployees.Api.Extensions;
 using CompanyEmployees.Api.Interfaces;
 using CompanyEmployees.Api.Models;
+using FluentValidation;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,8 +12,18 @@ namespace Namespace;
 public class EmployeesController : ControllerBase
 {
     private readonly IEmployeeService _service;
+    private readonly IValidator<EmployeeForCreateDto> _createValidator;
+    private readonly IValidator<EmployeeForUpdateDto> _updateValidator;
 
-    public EmployeesController(IEmployeeService service) => _service = service;
+    public EmployeesController
+    (IEmployeeService service
+    , IValidator<EmployeeForUpdateDto> updateValidator
+    , IValidator<EmployeeForCreateDto> createValidator)
+    {
+        _service = service;
+        _updateValidator = updateValidator;
+        _createValidator = createValidator;
+    }
 
     [HttpGet]
     public async Task<IActionResult> GetEmployees(Guid companyId)
@@ -38,6 +50,12 @@ public class EmployeesController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreatEmployee(Guid companyId, EmployeeForCreateDto dto)
     {
+        var validation = _createValidator.Validate(dto);
+        if (!validation.IsValid)
+        {
+            validation.AddToModelState(ModelState);
+            return UnprocessableEntity(ModelState);
+        }
         var result = await _service.CreateAsync(companyId, dto);
         return result.Match
         (
@@ -57,6 +75,12 @@ public class EmployeesController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateEmployee(Guid companyId, Guid id, EmployeeForUpdateDto dto)
     {
+        var validation = _updateValidator.Validate(dto);
+        if (!ModelState.IsValid)
+        {
+            validation.AddToModelState(ModelState);
+            return UnprocessableEntity(ModelState);
+        }
         var result = await _service.UpdateAsync(companyId, id, dto);
         return result.Match<IActionResult>
         (
@@ -74,9 +98,12 @@ public class EmployeesController : ControllerBase
             return NotFound(result.AsT1.ToProblemDetails());
 
         pathDoc.ApplyTo(result.AsT0, ModelState);
-
-        if (!ModelState.IsValid)
-            return BadRequest(ModelState);
+        var validation = _updateValidator.Validate(result.AsT0);
+        if (!validation.IsValid)
+        {
+            validation.AddToModelState(ModelState);
+            return UnprocessableEntity(ModelState);
+        }
 
         await _service.SaveChangesForPatch(result.AsT0, id);
 

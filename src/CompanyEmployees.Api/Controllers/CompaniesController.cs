@@ -1,5 +1,8 @@
+using CompanyEmployees.Api.Extensions;
 using CompanyEmployees.Api.Interfaces;
 using CompanyEmployees.Api.Models;
+using CompanyEmployees.Api.Validators;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CompanyEmployees.Api.Controllers;
@@ -9,10 +12,17 @@ namespace CompanyEmployees.Api.Controllers;
 public class CompaniesController : ControllerBase
 {
     private readonly ICompanyService _service;
+    private readonly IValidator<CompanyForUpdateDto> _updateValidator;
+    private readonly IValidator<CompanyForCreateDto> _createValidator;
 
-    public CompaniesController(ICompanyService service)
+    public CompaniesController
+    (ICompanyService service
+    , IValidator<CompanyForCreateDto> createValidator
+    , IValidator<CompanyForUpdateDto> updateValidator)
     {
         _service = service;
+        _createValidator = createValidator;
+        _updateValidator = updateValidator;
     }
 
     [HttpGet]
@@ -36,6 +46,12 @@ public class CompaniesController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateCompany(CompanyForCreateDto dto)
     {
+        var validation = _createValidator.Validate(dto);
+        if (!validation.IsValid)
+        {
+            validation.AddToModelState(ModelState);
+            return UnprocessableEntity(ModelState);
+        }
         var result = await _service.CreateAsync(dto);
         return result.Match<IActionResult>
         (
@@ -69,6 +85,12 @@ public class CompaniesController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateCompany(Guid id, CompanyForUpdateDto dto)
     {
+        var validation = _updateValidator.Validate(dto);
+        if (!validation.IsValid)
+        {
+            validation.AddToModelState(ModelState);
+            return UnprocessableEntity(ModelState);
+        }
         var result = await _service.UpdateAsync(id, dto);
         return result.Match<IActionResult>
         (

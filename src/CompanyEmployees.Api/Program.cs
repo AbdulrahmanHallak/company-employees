@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NLog;
 using NLog.Web;
+using FluentValidation;
+using CompanyEmployees.Api.Validators;
 
 namespace CompanyEmployees.Api;
 
@@ -41,6 +43,8 @@ public class Program
                 opts.OutputFormatters.Add(new CsvOutputFormatter());
                 opts.InputFormatters.Insert(0, JsonPatchInputFormatter.GetJsonPatchInputFormatter());
             }).AddXmlDataContractSerializerFormatters();
+
+            builder.Services.AddValidatorsFromAssemblyContaining<CompanyForCreateValidator>();
 
             builder.Services.ConfigureCors();
 

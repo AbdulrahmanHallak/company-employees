@@ -32,17 +32,21 @@ public class Program
                 opts.UseSqlite(builder.Configuration.GetConnectionString("sqliteConnection")
                 ?? throw new ArgumentNullException("The connection string cannot be null")));
 
-
-            builder.Services.AddScoped<ICompanyService, CompanyService>();
-            builder.Services.AddScoped<IEmployeeService, EmployeeService>();
-
             builder.Services.AddControllers(opts =>
             {
                 opts.RespectBrowserAcceptHeader = true;
                 opts.ReturnHttpNotAcceptable = true;
                 opts.OutputFormatters.Add(new CsvOutputFormatter());
                 opts.InputFormatters.Insert(0, JsonPatchInputFormatter.GetJsonPatchInputFormatter());
+            })
+            .ConfigureApiBehaviorOptions(opts =>
+            {
+                opts.SuppressModelStateInvalidFilter = true;
+
             }).AddXmlDataContractSerializerFormatters();
+
+            builder.Services.AddScoped<ICompanyService, CompanyService>();
+            builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 
             builder.Services.AddValidatorsFromAssemblyContaining<CompanyForCreateValidator>();
 

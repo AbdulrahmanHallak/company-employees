@@ -1,6 +1,7 @@
 using CompanyEmployees.Api.Extensions;
 using CompanyEmployees.Api.Interfaces;
 using CompanyEmployees.Api.Models;
+using CompanyEmployees.Api.RequestFeatures;
 using FluentValidation;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -26,9 +27,9 @@ public class EmployeesController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetEmployees(Guid companyId)
+    public async Task<IActionResult> GetEmployees([FromQuery] PaginationFilter pagination, Guid companyId)
     {
-        var result = await _service.GetAsync(companyId);
+        var result = await _service.GetAsync(pagination, companyId);
         return result.Match<IActionResult>
         (
             Ok,

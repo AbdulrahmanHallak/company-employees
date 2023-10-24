@@ -1,7 +1,7 @@
 using CompanyEmployees.Api.Extensions;
 using CompanyEmployees.Api.Interfaces;
 using CompanyEmployees.Api.Models;
-using CompanyEmployees.Api.Validators;
+using CompanyEmployees.Api.RequestFeatures;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,9 +26,9 @@ public class CompaniesController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetCompanies()
+    public async Task<IActionResult> GetCompanies([FromQuery] PaginationFilter filter)
     {
-        var companies = await _service.GetAsync();
+        var companies = await _service.GetAsync(filter);
         return Ok(companies);
     }
 

@@ -3,6 +3,7 @@ using CompanyEmployees.Api.Data.Entities;
 using CompanyEmployees.Api.Errors;
 using CompanyEmployees.Api.Interfaces;
 using CompanyEmployees.Api.Models;
+using CompanyEmployees.Api.RequestFeatures;
 using Microsoft.EntityFrameworkCore;
 using OneOf;
 using OneOf.Types;
@@ -18,14 +19,16 @@ public class CompanyService : ICompanyService
         _context = context;
         _logger = logger;
     }
-    public async Task<IEnumerable<CompanyDto>> GetAsync(int count = 10)
+    public async Task<PaginatedList<CompanyDto>> GetAsync(PaginationFilter filter)
     {
-        return await _context.Companies.AsNoTracking().Select(x => new CompanyDto()
+        IQueryable<CompanyDto> companies = _context.Companies.AsNoTracking().OrderBy(x => x.Name).Select(x => new CompanyDto()
         {
             Id = x.Id,
             Name = x.Name,
             FullAddress = string.Join(' ', x.Address, x.Country)
-        }).Take(count).ToListAsync();
+        });
+
+        return await PaginatedList<CompanyDto>.CreateAsync(companies, filter.PageNumber, filter.PageSize);
     }
     public async Task<OneOf<CompanyDto, NotFoundError>> GetAsync(Guid id)
     {

@@ -20,7 +20,7 @@ public class EmployeeService : IEmployeeService
         _context = context;
     }
 
-    public async Task<OneOf<PaginatedList<EmployeeDto>, NotFoundError>> GetAsync(PaginationFilter pagination,Guid companyId)
+    public async Task<OneOf<PaginatedList<EmployeeDto>, NotFoundError>> GetAsync(PaginationFilter pagination, EmployeeFilter filter, Guid companyId)
     {
         // Check if the company exists.
         var company = await _context.Companies.FindAsync(companyId);
@@ -33,7 +33,7 @@ public class EmployeeService : IEmployeeService
         // The actual query.
         IQueryable<EmployeeDto> employees =
             from emp in _context.Employees.AsNoTracking().OrderBy(x => x.Name)
-            where emp.CompanyId == companyId
+            where emp.CompanyId == companyId && emp.Age >= filter.MinAge && emp.Age <= filter.MaxAge
             select new EmployeeDto()
             {
                 Id = emp.Id,

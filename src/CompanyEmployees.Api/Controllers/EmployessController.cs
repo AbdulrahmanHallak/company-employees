@@ -29,9 +29,6 @@ public class EmployeesController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetEmployees([FromQuery] PaginationFilter pagination, [FromQuery] EmployeeFilter filter, Guid companyId)
     {
-        if (!filter.ValidAgeRange)
-            return Problem(title: "Max Age Range bad request", detail: "MinAge should be less than MaxAge", statusCode: 400);
-
         var result = await _service.GetAsync(pagination, filter, companyId);
         return result.Match<IActionResult>
         (

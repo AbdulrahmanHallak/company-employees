@@ -5,6 +5,7 @@ using CompanyEmployees.Api.Interfaces;
 using CompanyEmployees.Api.Models;
 using CompanyEmployees.Api.RequestFeatures;
 using Microsoft.EntityFrameworkCore;
+using CompanyEmployees.Api.Extensions;
 using OneOf;
 using OneOf.Types;
 
@@ -20,7 +21,7 @@ public class EmployeeService : IEmployeeService
         _context = context;
     }
 
-    public async Task<OneOf<PaginatedList<EmployeeDto>, NotFoundError>> GetAsync(PaginationFilter pagination, EmployeeFilter filter, Guid companyId)
+    public async Task<OneOf<PaginatedList<EmployeeDto>, NotFoundError>> GetAsync(PaginationFilter pagination, EmployeeParameters filter, Guid companyId)
     {
         // Check if the company exists.
         var company = await _context.Companies.FindAsync(companyId);
@@ -31,16 +32,13 @@ public class EmployeeService : IEmployeeService
         }
 
         // The actual query.
-        IQueryable<EmployeeDto> employees =
-            from emp in _context.Employees.AsNoTracking().OrderBy(x => x.Name)
-            where emp.CompanyId == companyId && emp.Age >= filter.MinAge && emp.Age <= filter.MaxAge
-            select new EmployeeDto()
-            {
-                Id = emp.Id,
-                Name = emp.Name,
-                Position = emp.Position,
-                Age = emp.Age
-            };
+        var employees =
+           _context.Employees.AsNoTracking()
+           .FilterByAge(filter.MinAge, filter.MaxAge)
+           .SearchByName(filter.SearchTerm!)
+           .OrderBy(x => x.Name)
+           .Select(x => new EmployeeDto() { Id = x.Id, Name = x.Name, Age = x.Age, Position = x.Position });
+
         return await PaginatedList<EmployeeDto>.CreateAsync(employees, pagination.PageNumber, pagination.PageSize);
     }
 

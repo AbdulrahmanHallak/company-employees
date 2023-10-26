@@ -1,5 +1,5 @@
 namespace CompanyEmployees.Api.RequestFeatures;
-public class EmployeeFilter
+public class EmployeeParameters
 {
     private int _minAge = 0;
     private int _maxAge = 100;
@@ -21,4 +21,6 @@ public class EmployeeFilter
             else _maxAge = value;
         }
     }
+
+    public string? SearchTerm { get; set; }
 }

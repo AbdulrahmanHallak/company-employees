@@ -27,7 +27,7 @@ public class EmployeesController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetEmployees([FromQuery] PaginationFilter pagination, [FromQuery] EmployeeFilter filter, Guid companyId)
+    public async Task<IActionResult> GetEmployees([FromQuery] PaginationFilter pagination, [FromQuery] EmployeeParameters filter, Guid companyId)
     {
         var result = await _service.GetAsync(pagination, filter, companyId);
         return result.Match<IActionResult>

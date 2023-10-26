@@ -8,7 +8,7 @@ using CompanyEmployees.Api.RequestFeatures;
 namespace CompanyEmployees.Api.Interfaces;
 public interface IEmployeeService
 {
-    public Task<OneOf<PaginatedList<EmployeeDto>, NotFoundError>> GetAsync(PaginationFilter pagination,EmployeeFilter filter, Guid companyId);
+    public Task<OneOf<PaginatedList<EmployeeDto>, NotFoundError>> GetAsync(PaginationFilter pagination, EmployeeParameters filter, Guid companyId);
 
     public Task<OneOf<EmployeeDto, NotFoundError>> GetAsync(Guid companyId, Guid id);
 

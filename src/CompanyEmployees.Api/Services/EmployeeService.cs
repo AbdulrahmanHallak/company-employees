@@ -36,7 +36,7 @@ public class EmployeeService : IEmployeeService
            _context.Employees.AsNoTracking()
            .FilterByAge(filter.MinAge, filter.MaxAge)
            .SearchByName(filter.SearchTerm!)
-           .OrderBy(x => x.Name)
+           .Sort(pagination.OrderBy)
            .Select(x => new EmployeeDto() { Id = x.Id, Name = x.Name, Age = x.Age, Position = x.Position });
 
         return await PaginatedList<EmployeeDto>.CreateAsync(employees, pagination.PageNumber, pagination.PageSize);

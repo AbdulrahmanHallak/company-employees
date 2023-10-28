@@ -21,9 +21,10 @@ public class EmployeeService : IEmployeeService
         _context = context;
     }
 
-    public async Task<OneOf<PaginatedList<EmployeeDto>, NotFoundError>> GetAsync(PaginationFilter pagination, EmployeeParameters filter, Guid companyId)
+    public async Task<OneOf<PaginatedList<EmployeeDto>, NotFoundError>> GetAsync(PaginationFilter? pagination, EmployeeParameters filter, Guid companyId)
     {
-        // Check if the company exists.
+        if (pagination is null) pagination = new PaginationFilter();
+
         var company = await _context.Companies.FindAsync(companyId);
         if (company is null)
         {

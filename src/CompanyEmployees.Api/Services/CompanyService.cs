@@ -19,8 +19,10 @@ public class CompanyService : ICompanyService
         _context = context;
         _logger = logger;
     }
-    public async Task<PaginatedList<CompanyDto>> GetAsync(PaginationFilter filter)
+    public async Task<PaginatedList<CompanyDto>> GetAsync(PaginationFilter? filter)
     {
+        if (filter is null) filter = new PaginationFilter();
+
         IQueryable<CompanyDto> companies = _context.Companies.AsNoTracking().OrderBy(x => x.Name).Select(x => new CompanyDto()
         {
             Id = x.Id,

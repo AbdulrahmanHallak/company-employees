@@ -6,7 +6,7 @@ using FluentValidation;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Namespace;
+namespace CompanyEmployees.Api.Controllers;
 
 [ApiController]
 [Route("api/companies/{companyId}/[controller]")]

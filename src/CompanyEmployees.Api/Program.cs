@@ -2,12 +2,12 @@ using CompanyEmployees.Api.Data;
 using CompanyEmployees.Api.Configuration;
 using CompanyEmployees.Api.Interfaces;
 using CompanyEmployees.Api.Services;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NLog;
 using NLog.Web;
 using FluentValidation;
 using CompanyEmployees.Api.Validators;
+using CompanyEmployees.Api.Extensions;
 
 namespace CompanyEmployees.Api;
 
@@ -49,6 +49,8 @@ public class Program
             builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 
             builder.Services.AddValidatorsFromAssemblyContaining<CompanyForCreateValidator>();
+
+            builder.Services.ConfigureVersioning();
 
             builder.Services.ConfigureCors();
 

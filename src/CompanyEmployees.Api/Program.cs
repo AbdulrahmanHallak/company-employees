@@ -8,6 +8,7 @@ using NLog.Web;
 using FluentValidation;
 using CompanyEmployees.Api.Validators;
 using CompanyEmployees.Api.Extensions;
+using System.Threading.RateLimiting;
 
 namespace CompanyEmployees.Api;
 
@@ -52,6 +53,8 @@ public class Program
 
             builder.Services.ConfigureVersioning();
 
+            builder.Services.ConfigureRateLimiting();
+
             builder.Services.ConfigureCors();
 
             var app = builder.Build();
@@ -63,6 +66,8 @@ public class Program
                 app.UseHsts();
 
             app.UseHttpsRedirection();
+
+            app.UseRateLimiter();
 
             app.UseCors("CorsPolicy");
 

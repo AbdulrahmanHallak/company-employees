@@ -36,7 +36,7 @@ public class EmployeeService : IEmployeeService
         var employees =
            _context.Employees.AsNoTracking()
            .FilterByAge(filter.MinAge, filter.MaxAge)
-           .SearchByName(filter.SearchTerm!)
+           .SearchByName(filter.SearchTerm)
            .Sort(pagination.OrderBy)
            .Select(x => new EmployeeDto() { Id = x.Id, Name = x.Name, Age = x.Age, Position = x.Position });
 

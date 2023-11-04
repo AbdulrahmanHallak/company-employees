@@ -3,6 +3,7 @@ using CompanyEmployees.Api.Interfaces;
 using CompanyEmployees.Api.Models;
 using CompanyEmployees.Api.RequestFeatures;
 using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CompanyEmployees.Api.Controllers;
@@ -26,6 +27,7 @@ public class CompaniesController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize(Roles = "Manager,Administrator")]
     public async Task<IActionResult> GetCompanies([FromQuery] PaginationFilter filter)
     {
         var companies = await _service.GetAsync(filter);
@@ -33,6 +35,7 @@ public class CompaniesController : ControllerBase
     }
 
     [HttpGet("{id}")]
+    [Authorize(Roles = "Manager,Administrator")]
     public async Task<IActionResult> GetCompany(Guid id)
     {
         var result = await _service.GetAsync(id);
@@ -44,6 +47,7 @@ public class CompaniesController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = "Administrator")]
     public async Task<IActionResult> CreateCompany(CompanyForCreateDto dto)
     {
         var validation = _createValidator.Validate(dto);
@@ -76,6 +80,7 @@ public class CompaniesController : ControllerBase
     // }
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = "Administrator")]
     public async Task<IActionResult> DeleteCompany(Guid id)
     {
         await _service.DeleteAsync(id);
@@ -83,6 +88,7 @@ public class CompaniesController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [Authorize(Roles = "Administrator")]
     public async Task<IActionResult> UpdateCompany(Guid id, CompanyForUpdateDto dto)
     {
         var validation = _updateValidator.Validate(dto);

@@ -3,6 +3,7 @@ using CompanyEmployees.Api.Interfaces;
 using CompanyEmployees.Api.Models;
 using CompanyEmployees.Api.RequestFeatures;
 using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,6 +28,7 @@ public class EmployeesController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize(Roles = "Manager,Adminstrator")]
     public async Task<IActionResult> GetEmployees([FromQuery] PaginationFilter pagination, [FromQuery] EmployeeParameters filter, Guid companyId)
     {
         var result = await _service.GetAsync(pagination, filter, companyId);
@@ -38,6 +40,7 @@ public class EmployeesController : ControllerBase
     }
 
     [HttpGet("{id}")]
+    [Authorize(Roles = "Manager,Adminstrator")]
     public async Task<IActionResult> GetEmployee(Guid companyId, Guid id)
     {
         var result = await _service.GetAsync(companyId, id);
@@ -49,6 +52,7 @@ public class EmployeesController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = "Adminstrator")]
     public async Task<IActionResult> CreatEmployee(Guid companyId, EmployeeForCreateDto dto)
     {
         var validation = _createValidator.Validate(dto);
@@ -67,6 +71,7 @@ public class EmployeesController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = "Adminstrator")]
     public async Task<IActionResult> DeleteEmployee(Guid id)
     {
         await _service.DeleteAsync(id);
@@ -74,6 +79,7 @@ public class EmployeesController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [Authorize(Roles = "Adminstrator")]
     public async Task<IActionResult> UpdateEmployee(Guid companyId, Guid id, EmployeeForUpdateDto dto)
     {
         var validation = _updateValidator.Validate(dto);
@@ -91,6 +97,7 @@ public class EmployeesController : ControllerBase
     }
 
     [HttpPatch("{id}")]
+    [Authorize(Roles = "Adminstrator")]
     public async Task<IActionResult> PatchEmployee(Guid companyId, Guid id, [FromBody] JsonPatchDocument<EmployeeForUpdateDto> pathDoc)
     {
         var result = await _service.GetForPatch(companyId, id);

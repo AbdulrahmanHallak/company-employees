@@ -3,6 +3,7 @@ using System;
 using CompanyEmployees.Api.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CompanyEmployees.Api.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class CompanyContextModelSnapshot : ModelSnapshot
+    [Migration("20231031183743_CreatingIdentityTables")]
+    partial class CreatingIdentityTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.12");
@@ -41,22 +44,6 @@ namespace CompanyEmployees.Api.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Companies");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("c9d4c053-49b6-410c-bc78-2d54a9991870"),
-                            Address = "583 Wall Dr. Gwynn Oak, MD 21207",
-                            Country = "USA",
-                            Name = "IT_Solutions Ltd"
-                        },
-                        new
-                        {
-                            Id = new Guid("3d490a70-94ce-4d15-9494-5248280c2ce3"),
-                            Address = "312 Forest Avenue, BF 923",
-                            Country = "USA ",
-                            Name = "Admin_Solutions Ltd"
-                        });
                 });
 
             modelBuilder.Entity("CompanyEmployees.Api.Data.Entities.Employee", b =>
@@ -86,32 +73,6 @@ namespace CompanyEmployees.Api.Data.Migrations
                     b.HasIndex("CompanyId");
 
                     b.ToTable("Employees");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("80abbca8-664d-4b20-b5de-024705497d4a"),
-                            Age = 26,
-                            CompanyId = new Guid("c9d4c053-49b6-410c-bc78-2d54a9991870"),
-                            Name = "Sam Raiden",
-                            Position = "Software developer"
-                        },
-                        new
-                        {
-                            Id = new Guid("86dba8c0-d178-41e7-938c-ed49778fb52a"),
-                            Age = 30,
-                            CompanyId = new Guid("c9d4c053-49b6-410c-bc78-2d54a9991870"),
-                            Name = "Jana McLeaf",
-                            Position = "Software developer"
-                        },
-                        new
-                        {
-                            Id = new Guid("021ca3c1-0deb-4afd-ae94-2159a8479811"),
-                            Age = 35,
-                            CompanyId = new Guid("3d490a70-94ce-4d15-9494-5248280c2ce3"),
-                            Name = "Kane Miller",
-                            Position = "Administrator"
-                        });
                 });
 
             modelBuilder.Entity("CompanyEmployees.Api.Data.Entities.User", b =>
@@ -210,20 +171,6 @@ namespace CompanyEmployees.Api.Data.Migrations
                         .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "67c15848-a9f0-49fb-a76e-6652d44c2218",
-                            Name = "Manager",
-                            NormalizedName = "MANAGER"
-                        },
-                        new
-                        {
-                            Id = "90541b3e-4de1-4fb5-a47f-962edef9d69c",
-                            Name = "Administrator",
-                            NormalizedName = "ADMINISTRATOR"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

@@ -8,7 +8,6 @@ using NLog.Web;
 using FluentValidation;
 using CompanyEmployees.Api.Validators;
 using CompanyEmployees.Api.Extensions;
-using System.Threading.RateLimiting;
 
 namespace CompanyEmployees.Api;
 
@@ -48,12 +47,16 @@ public class Program
 
             builder.Services.AddScoped<ICompanyService, CompanyService>();
             builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+            builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 
             builder.Services.AddValidatorsFromAssemblyContaining<CompanyForCreateValidator>();
 
             builder.Services.ConfigureVersioning();
 
             builder.Services.ConfigureRateLimiting();
+
+            builder.Services.ConfigureIdentity();
+            builder.Services.ConfigureJWT(builder.Configuration);
 
             builder.Services.ConfigureCors();
 
@@ -70,6 +73,8 @@ public class Program
             app.UseRateLimiter();
 
             app.UseCors("CorsPolicy");
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

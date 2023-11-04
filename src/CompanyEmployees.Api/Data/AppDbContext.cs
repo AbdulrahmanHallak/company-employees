@@ -1,9 +1,10 @@
 using CompanyEmployees.Api.Data.Entities;
 using CompanyEmployees.Api.Data.SeedData;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace CompanyEmployees.Api.Data;
-public class AppDbContext : DbContext
+public class AppDbContext : IdentityDbContext<User>
 {
     public DbSet<Employee> Employees { get; set; }
     public DbSet<Company> Companies { get; set; }
@@ -14,6 +15,7 @@ public class AppDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
         // All non-nullable reference typs are required by default in a NRT-enabled context,
         // which spare the need to call IsRequired.
 
@@ -40,7 +42,8 @@ public class AppDbContext : DbContext
             .HasMaxLength(20);
 
         // Adding seed data
-        // modelBuilder.ApplyConfiguration(new CompanySeed());
-        // modelBuilder.ApplyConfiguration(new EmployeeSeed());
+        modelBuilder.ApplyConfiguration(new CompanySeed());
+        modelBuilder.ApplyConfiguration(new EmployeeSeed());
+        modelBuilder.ApplyConfiguration(new UserSeed());
     }
 }

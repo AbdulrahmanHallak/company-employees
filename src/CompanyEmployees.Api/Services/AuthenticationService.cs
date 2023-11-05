@@ -2,11 +2,13 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using CompanyEmployees.Api.ConfigModels;
 using CompanyEmployees.Api.Data.Entities;
 using CompanyEmployees.Api.Errors;
 using CompanyEmployees.Api.Interfaces;
 using CompanyEmployees.Api.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using OneOf;
 
@@ -16,18 +18,18 @@ public class AuthenticationService : IAuthenticationService
     private readonly ILogger<AuthenticationService> _logger;
     private readonly UserManager<User> _userManager;
     private readonly RoleManager<IdentityRole> _roleManager;
-    private readonly IConfiguration _configuration;
+    private readonly JwtSettings _jwtSettings;
     private User? _user;
     public AuthenticationService
     (ILogger<AuthenticationService> logger,
     RoleManager<IdentityRole> roleManager,
     UserManager<User> userManager,
-    IConfiguration configuration)
+    IOptions<JwtSettings> jwtSettings)
     {
         _logger = logger;
         _userManager = userManager;
         _roleManager = roleManager;
-        _configuration = configuration;
+        _jwtSettings = jwtSettings.Value;
     }
 
 
@@ -83,8 +85,7 @@ public class AuthenticationService : IAuthenticationService
         var key = Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("SECRET")!);
         var secret = new SymmetricSecurityKey(key);
         var signingCredentials = new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
-        var jwtSettings = _configuration.GetSection("JwtSettings");
-        var expiryDate = DateTime.Now.AddMinutes(double.Parse(jwtSettings["expires"]!));
+        var expiryDate = DateTime.Now.AddMinutes(_jwtSettings.Expires);
 
 
         // ? It seems the ClaimType.Name is required by Identity
@@ -96,7 +97,7 @@ public class AuthenticationService : IAuthenticationService
             new Claim(JwtRegisteredClaimNames.Sub, _user!.UserName!),
             new Claim(ClaimTypes.Name , _user!.UserName!),
             new Claim(JwtRegisteredClaimNames.Email, _user.Email!),
-            new Claim(JwtRegisteredClaimNames.Iss, jwtSettings["validIssuer"]!),
+            new Claim(JwtRegisteredClaimNames.Iss, _jwtSettings.ValidIssuer),
             new Claim(JwtRegisteredClaimNames.Exp, expiryDate.ToString())
         };
         var roles = await _userManager.GetRolesAsync(_user);
@@ -105,8 +106,8 @@ public class AuthenticationService : IAuthenticationService
 
         var tokenOptions = new JwtSecurityToken
         (
-            audience: jwtSettings["validAudience"],
-            issuer: jwtSettings["validIssuer"],
+            audience: _jwtSettings.ValidAudience,
+            issuer: _jwtSettings.ValidIssuer,
             claims: claims,
             expires: expiryDate,
             signingCredentials: signingCredentials
@@ -136,7 +137,7 @@ public class AuthenticationService : IAuthenticationService
         var user = await _userManager.FindByNameAsync(principal.Identity!.Name!);
         if (user is null || user.RefreshToken != tokenDto.RefreshToken
             || user.RefreshTokenExpiryTime <= DateTime.UtcNow)
-            return new InvalidTokenError("Invalid Access Token");
+            return new InvalidTokenError("Invalid Refresh Token");
 
         _user = user;
 
@@ -153,16 +154,14 @@ public class AuthenticationService : IAuthenticationService
 
     private OneOf<ClaimsPrincipal, InvalidTokenError> GetPrincipalFromExpiredToken(string token)
     {
-        var jwtSettings = _configuration.GetSection("JwtSettings");
-
         var tokenValidationParameter = new TokenValidationParameters()
         {
             ValidateIssuer = true,
             ValidateAudience = true,
             ValidateIssuerSigningKey = true,
             ValidateLifetime = true,
-            ValidAudience = jwtSettings["validAudience"],
-            ValidIssuer = jwtSettings["validIssuer"],
+            ValidAudience = _jwtSettings.ValidAudience,
+            ValidIssuer = _jwtSettings.ValidIssuer,
             ClockSkew = TimeSpan.Zero,
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("SECRET")!))
         };

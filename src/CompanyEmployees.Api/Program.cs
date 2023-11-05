@@ -8,6 +8,7 @@ using NLog.Web;
 using FluentValidation;
 using CompanyEmployees.Api.Validators;
 using CompanyEmployees.Api.Extensions;
+using CompanyEmployees.Api.ConfigModels;
 
 namespace CompanyEmployees.Api;
 
@@ -57,6 +58,7 @@ public class Program
 
             builder.Services.ConfigureIdentity();
             builder.Services.ConfigureJWT(builder.Configuration);
+            builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection(nameof(JwtSettings)));
 
             builder.Services.ConfigureCors();
 

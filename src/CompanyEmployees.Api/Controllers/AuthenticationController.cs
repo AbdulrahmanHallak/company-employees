@@ -1,8 +1,6 @@
-using System.Net.Http.Headers;
 using CompanyEmployees.Api.Extensions;
 using CompanyEmployees.Api.Interfaces;
 using CompanyEmployees.Api.Models;
-using CompanyEmployees.Api.Validators;
 using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -48,6 +46,7 @@ public class AuthenticationController : ControllerBase
         var result = await _service.IsUserValidAsync(dto);
         if (!result)
             return Unauthorized();
-        return Ok(new { Token = await _service.CreateTokenAsync() });
+        var tokens = await _service.CreateTokenAsync(true);
+        return Ok(tokens);
     }
 }

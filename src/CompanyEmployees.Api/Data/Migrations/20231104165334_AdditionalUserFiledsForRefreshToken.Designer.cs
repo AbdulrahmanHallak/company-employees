@@ -3,6 +3,7 @@ using System;
 using CompanyEmployees.Api.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CompanyEmployees.Api.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class CompanyContextModelSnapshot : ModelSnapshot
+    [Migration("20231104165334_AdditionalUserFiledsForRefreshToken")]
+    partial class AdditionalUserFiledsForRefreshToken
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.12");
@@ -221,13 +224,13 @@ namespace CompanyEmployees.Api.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "67c15848-a9f0-49fb-a76e-6652d44c2218",
+                            Id = "4b30688f-7abb-49f7-9adb-ae0be36a86eb",
                             Name = "Manager",
                             NormalizedName = "MANAGER"
                         },
                         new
                         {
-                            Id = "90541b3e-4de1-4fb5-a47f-962edef9d69c",
+                            Id = "ba31284e-ac7f-429a-9fba-c2e205d1eb29",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });

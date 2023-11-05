@@ -159,8 +159,8 @@ public class AuthenticationService : IAuthenticationService
             ValidateIssuer = true,
             ValidateAudience = true,
             ValidateIssuerSigningKey = true,
-            ValidateLifetime = true,
-            ValidAudience = _jwtSettings.ValidAudience,
+            ValidateLifetime = false, // Because it is already expired. // ! if this set to true a SecurityTokenExpiredException is thrown
+            ValidAudience = _jwtSettings.ValidAudience,                 // ! by ValidateToken method.
             ValidIssuer = _jwtSettings.ValidIssuer,
             ClockSkew = TimeSpan.Zero,
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("SECRET")!))

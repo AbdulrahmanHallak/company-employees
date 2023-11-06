@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using CompanyEmployees.Api.Extensions;
 using CompanyEmployees.Api.Interfaces;
 using CompanyEmployees.Api.Models;
@@ -10,6 +11,7 @@ namespace CompanyEmployees.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[ApiExplorerSettings(GroupName = "v1")]
 public class CompaniesController : ControllerBase
 {
     private readonly ICompanyService _service;

@@ -34,7 +34,7 @@ public class EmployeeService : IEmployeeService
 
         // The actual query.
         var employees =
-           _context.Employees.AsNoTracking()
+           _context.Employees
            .FilterByAge(filter.MinAge, filter.MaxAge)
            .SearchByName(filter.SearchTerm)
            .Sort(pagination.OrderBy)
@@ -55,7 +55,7 @@ public class EmployeeService : IEmployeeService
 
         EmployeeDto? employee;
         employee = await
-            (from emp in _context.Employees.AsNoTracking()
+            (from emp in _context.Employees
              where emp.Id == id
              select new EmployeeDto()
              {

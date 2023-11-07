@@ -23,7 +23,7 @@ public class CompanyService : ICompanyService
     {
         if (filter is null) filter = new PaginationFilter();
 
-        IQueryable<CompanyDto> companies = _context.Companies.AsNoTracking().OrderBy(x => x.Name).Select(x => new CompanyDto()
+        IQueryable<CompanyDto> companies = _context.Companies.OrderBy(x => x.Name).Select(x => new CompanyDto()
         {
             Id = x.Id,
             Name = x.Name,
@@ -36,7 +36,7 @@ public class CompanyService : ICompanyService
     {
         CompanyDto? company;
         company = await
-            (from comp in _context.Companies.AsNoTracking()
+            (from comp in _context.Companies
              where comp.Id == id
              select new CompanyDto()
              {

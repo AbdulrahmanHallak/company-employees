@@ -10,7 +10,6 @@ public interface ICompanyService
     public Task<PaginatedList<CompanyDto>> GetAsync(PaginationFilter parameters);
 
     public Task<OneOf<CompanyDto, NotFoundError>> GetAsync(Guid id);
-    public Task<OneOf<IEnumerable<CompanyDto>, NotFoundCollectionError>> GetCollectionAsync(IEnumerable<Guid> ids);
     public Task<OneOf<CompanyDto, InternalServerError>> CreateAsync(CompanyForCreateDto dto);
     public Task DeleteAsync(Guid id);
     public Task<OneOf<Success, NotFoundError>> UpdateAsync(Guid id, CompanyForUpdateDto dto);

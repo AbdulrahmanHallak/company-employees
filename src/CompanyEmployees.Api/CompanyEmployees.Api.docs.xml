@@ -53,9 +53,6 @@
             <param name="pagination">Pagination filter parameters for the list of employees.</param>
             <param name="filter">Filter parameters for fine-grained employee query.</param>
             <param name="companyId">The unique identifier of the company for which employees are being retrieved.</param>
-            <returns>
-            A paginated list of <see cref="T:CompanyEmployees.Api.Models.EmployeeDto"/>
-            </returns>
             <response code="200">Returns the paginated list on successful retrieval.</response>
             <response code="404">Not Found - returned when the specified company is not found.</response>
         </member>
@@ -184,6 +181,243 @@
             Converts the error into a <see cref="T:Microsoft.AspNetCore.Mvc.ProblemDetails"/> object for use in handling and reporting errors in api endpoints.
             </summary>
             <returns>A <see cref="T:Microsoft.AspNetCore.Mvc.ProblemDetails"/> object representing the error.</returns>
+        </member>
+        <member name="T:CompanyEmployees.Api.Extensions.SwaggerFluentValidation">
+            <summary>
+            Swagger validation documentation with FluentValidations.
+            See <seealso cref="T:Swashbuckle.AspNetCore.SwaggerGen.ISchemaFilter" />
+            </summary>
+        </member>
+        <member name="M:CompanyEmployees.Api.Extensions.SwaggerFluentValidation.ToPascalCase(System.String)">
+            <summary>
+            To convert case as swagger may be using lower camel case.
+            </summary>
+            <param name="inputString">The input string.</param>
+            <returns>Pascal case for string.</returns>
+        </member>
+        <member name="M:CompanyEmployees.Api.Interfaces.ICompanyService.GetAsync(CompanyEmployees.Api.RequestFeatures.PaginationFilter)">
+            <summary>
+            Retrieves a paginated list of companies based on the provided pagination parameters.
+            </summary>
+            <param name="parameters">Pagination filter parameters for the list of companies.</param>
+            <returns>
+            A <see cref="T:CompanyEmployees.Api.RequestFeatures.PaginatedList`1"/> containing <see cref="T:CompanyEmployees.Api.Models.CompanyDto"/>
+            </returns>
+        </member>
+        <member name="M:CompanyEmployees.Api.Interfaces.ICompanyService.GetAsync(System.Guid)">
+            <summary>
+            Retrieves details of a specific company based on its unique identifier.
+            </summary>
+            <param name="id">The unique identifier of the company to retrieve.</param>
+            <returns>
+            A <see cref="N:OneOf"/> type representing either an <see cref="T:CompanyEmployees.Api.Models.CompanyDto"/> on successful retrieval or a
+            <see cref="T:CompanyEmployees.Api.Errors.NotFoundError"/> if the specified company is not found.
+            </returns>
+        </member>
+        <member name="M:CompanyEmployees.Api.Interfaces.ICompanyService.CreateAsync(CompanyEmployees.Api.Models.CompanyForCreateDto)">
+            <summary>
+            Creates a new company based on provided data.
+            </summary>
+            <param name="dto">The data necessary to create the company.</param>
+            <returns>
+            A <see cref="N:OneOf"/> representing either a <see cref="T:CompanyEmployees.Api.Models.CompanyDto"/> on successful creation or an
+            <see cref="T:CompanyEmployees.Api.Errors.InternalServerError"/> in case of an error during creation.
+            </returns>
+        </member>
+        <member name="M:CompanyEmployees.Api.Interfaces.ICompanyService.DeleteAsync(System.Guid)">
+            <summary>
+            Deletes a company based on the specified ID.
+            </summary>
+            <param name="id">The unique identifier of the company to delete.</param>
+        </member>
+        <member name="M:CompanyEmployees.Api.Interfaces.ICompanyService.UpdateAsync(System.Guid,CompanyEmployees.Api.Models.CompanyForUpdateDto)">
+            <summary>
+            Updates details of a specific company based on its unique identifier using provided data.
+            </summary>
+            <param name="id">The unique identifier of the company to update.</param>
+            <param name="dto">The data containing updated information for the company.</param>
+            <returns>
+            A <see cref="N:OneOf"/> representing either a <see cref="T:OneOf.Types.Success"/> on successful update
+            or a <see cref="T:CompanyEmployees.Api.Errors.NotFoundError"/> if the specified company is not found.
+            </returns>
+        </member>
+        <member name="M:CompanyEmployees.Api.Interfaces.IEmployeeService.GetAsync(CompanyEmployees.Api.RequestFeatures.PaginationFilter,CompanyEmployees.Api.RequestFeatures.EmployeeParameters,System.Guid)">
+            <summary>
+            Retrieves a paginated list of employees based on specified pagination, filtering parameters, and company ID.
+            </summary>
+            <param name="pagination">Pagination filter parameters for the list of employees.</param>
+            <param name="filter">Filter parameters for fine-grained employee query.</param>
+            <param name="companyId">The unique identifier of the company for which employees are being retrieved.</param>
+            <returns>
+            A <see cref="N:OneOf"/> type representing either a <see cref="T:CompanyEmployees.Api.RequestFeatures.PaginatedList`1"/> on successful retrieval or a <see cref="T:CompanyEmployees.Api.Errors.NotFoundError"/>
+             if the specified company is not found.
+            </returns>
+        </member>
+        <member name="M:CompanyEmployees.Api.Interfaces.IEmployeeService.GetAsync(System.Guid,System.Guid)">
+            <summary>
+            Retrieves details of a specific employee within a company based on their unique identifiers.
+            </summary>
+            <param name="companyId">The unique identifier of the company to which the employee belongs.</param>
+            <param name="id">The unique identifier of the employee to retrieve.</param>
+            <returns>
+            A <see cref="N:OneOf"/> type representing either an <see cref="T:CompanyEmployees.Api.Models.EmployeeDto"/> on successful retrieval or a
+            <see cref="T:CompanyEmployees.Api.Errors.NotFoundError"/> if the specified company or employee is not found.
+            </returns>
+        </member>
+        <member name="M:CompanyEmployees.Api.Interfaces.IEmployeeService.CreateAsync(System.Guid,CompanyEmployees.Api.Models.EmployeeForCreateDto)">
+            <summary>
+            Creates a new employee for a specified company based on provided data.
+            </summary>
+            <param name="companyId">The unique identifier of the company for which the employee is being created.</param>
+            <param name="dto">The data necessary to create the employee.</param>
+            <returns>
+            A <see cref="N:OneOf"/> type representing either an <see cref="T:CompanyEmployees.Api.Models.EmployeeDto"/> on successful creation,
+            a <see cref="T:CompanyEmployees.Api.Errors.NotFoundError"/> if the specified company is not found, or an
+            <see cref="T:CompanyEmployees.Api.Errors.InternalServerError"/> if an error occurs during creation.
+            </returns>
+        </member>
+        <member name="M:CompanyEmployees.Api.Interfaces.IEmployeeService.DeleteAsync(System.Guid)">
+            <summary>
+            Deletes an employee based on the specified ID.
+            </summary>
+            <param name="id">The unique identifier of the employee to delete.</param>
+        </member>
+        <member name="M:CompanyEmployees.Api.Interfaces.IEmployeeService.UpdateAsync(System.Guid,System.Guid,CompanyEmployees.Api.Models.EmployeeForUpdateDto)">
+            <summary>
+            Updates details of a specific employee within a company based on their unique identifiers using provided data.
+            </summary>
+            <param name="companyId">The unique identifier of the company to which the employee belongs.</param>
+            <param name="employeeId">The unique identifier of the employee to update.</param>
+            <param name="dto">The data containing updated information for the employee.</param>
+            <returns>
+            A <see cref="N:OneOf"/> type representing either a <see cref="T:OneOf.Types.Success"/> on successful update or
+             a <see cref="T:CompanyEmployees.Api.Errors.NotFoundError"/> if the specified company or employee is not found.
+            </returns>
+        </member>
+        <member name="M:CompanyEmployees.Api.Interfaces.IEmployeeService.GetForPatch(System.Guid,System.Guid)">
+            <summary>
+            Retrieves an employee's details specifically for patching, based on their unique identifiers within a company.
+            </summary>
+            <param name="companyId">The unique identifier of the company to which the employee belongs.</param>
+            <param name="id">The unique identifier of the employee for patching.</param>
+            <returns>
+            A <see cref="N:OneOf"/> type representing either an <see cref="T:CompanyEmployees.Api.Models.EmployeeForUpdateDto"/>
+            for patching or a <see cref="T:CompanyEmployees.Api.Errors.NotFoundError"/> if the specified company or employee is not found.
+            </returns>
+            <remarks>
+            After the patching process, the method <see cref="M:CompanyEmployees.Api.Interfaces.IEmployeeService.SaveChangesForPatch(CompanyEmployees.Api.Models.EmployeeForUpdateDto,System.Guid)"/> must be called to
+            persist the changes.
+            </remarks>
+        </member>
+        <member name="M:CompanyEmployees.Api.Interfaces.IEmployeeService.SaveChangesForPatch(CompanyEmployees.Api.Models.EmployeeForUpdateDto,System.Guid)">
+            <summary>
+            Saves changes made for patching an employee based on provided updates and the employee's unique identifier.
+            </summary>
+            <param name="dto">The updated data for the employee after patching.</param>
+            <param name="id">The unique identifier of the employee.</param>
+            <returns>
+            A task representing the asynchronous process of saving changes made for patching the employee.
+            </returns>
+            <remarks>
+            This method MUST be called after the call to <see cref="M:CompanyEmployees.Api.Interfaces.IEmployeeService.GetForPatch(System.Guid,System.Guid)"/>
+            </remarks>
+        </member>
+        <member name="T:CompanyEmployees.Api.RequestFeatures.EmployeeParameters">
+            <summary>
+            Represents parameters for filtering and searching <see cref="T:CompanyEmployees.Api.Models.EmployeeDto"/>.
+            </summary>
+        </member>
+        <member name="P:CompanyEmployees.Api.RequestFeatures.EmployeeParameters.MinAge">
+            <summary>
+            Gets or sets the minimum age for filtering.
+            </summary>
+            <remarks>
+            When provided with age greater than 100 and less than 0 it defaults to 0.
+            </remarks>
+        </member>
+        <member name="P:CompanyEmployees.Api.RequestFeatures.EmployeeParameters.MaxAge">
+            <summary>
+            Gets or sets the maximum age for filtering.
+            </summary>
+            <remarks>
+            When provided with age greater than 100 and less than 0 it defaults to 0.
+            </remarks>
+        </member>
+        <member name="P:CompanyEmployees.Api.RequestFeatures.EmployeeParameters.SearchTerm">
+            <summary>
+            Gets or sets the search term for searching employees by name.
+            </summary>
+        </member>
+        <member name="T:CompanyEmployees.Api.RequestFeatures.PaginatedList`1">
+            <summary>
+            Represents a paginated list of items of type T.
+            </summary>
+            <typeparam name="T">The type of items in the paginated list.</typeparam>
+        </member>
+        <member name="P:CompanyEmployees.Api.RequestFeatures.PaginatedList`1.PageIndex">
+            <summary>
+            Gets the current page index.
+            </summary>
+        </member>
+        <member name="P:CompanyEmployees.Api.RequestFeatures.PaginatedList`1.TotalPages">
+            <summary>
+            Gets the total number of pages.
+            </summary>
+        </member>
+        <member name="P:CompanyEmployees.Api.RequestFeatures.PaginatedList`1.PageSize">
+            <summary>
+            Gets the number of items per page.
+            </summary>
+        </member>
+        <member name="P:CompanyEmployees.Api.RequestFeatures.PaginatedList`1.Data">
+            <summary>
+            Gets the collection of items in the current page.
+            </summary>
+        </member>
+        <member name="M:CompanyEmployees.Api.RequestFeatures.PaginatedList`1.#ctor(System.Collections.Generic.List{`0},System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Initializes a new instance of the PaginatedList class.
+            </summary>
+            <param name="items">The list of items to be paginated.</param>
+            <param name="count">The total count of items.</param>
+            <param name="pageIndex">The index of the current page.</param>
+            <param name="pageSize">The number of items per page.</param>
+        </member>
+        <member name="M:CompanyEmployees.Api.RequestFeatures.PaginatedList`1.CreateAsync(System.Linq.IQueryable{`0},System.Int32,System.Int32)">
+            <summary>
+            Creates a paginated list asynchronously based on the source IQueryable.
+            </summary>
+            <param name="source">The source IQueryable collection.</param>
+            <param name="pageIndex">The index of the current page.</param>
+            <param name="pageSize">The number of items per page.</param>
+            <returns>A Task representing the asynchronous creation of the PaginatedList.</returns>
+        </member>
+        <member name="T:CompanyEmployees.Api.RequestFeatures.PaginationFilter">
+            <summary>
+            Represents a pagination configuration.
+            </summary>
+        </member>
+        <member name="P:CompanyEmployees.Api.RequestFeatures.PaginationFilter.PageNumber">
+            <summary>
+            Gets or sets the page number.
+            </summary>
+        </member>
+        <member name="P:CompanyEmployees.Api.RequestFeatures.PaginationFilter.PageSize">
+            <summary>
+            Gets or sets the page size. Maximum page size is 50.
+            </summary>
+            <remarks>
+            Defaults to 10. Cannot be greater than 50.
+            </remarks>
+        </member>
+        <member name="P:CompanyEmployees.Api.RequestFeatures.PaginationFilter.OrderBy">
+            <summary>
+            Gets or sets the sorting criteria.
+            </summary>
+            <remarks>
+            Sorting is included in this type because pagination does not
+            work without sorting.
+            </remarks>
         </member>
     </members>
 </doc>

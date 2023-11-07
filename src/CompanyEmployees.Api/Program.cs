@@ -75,15 +75,6 @@ public class Program
                     x.SwaggerEndpoint("/swagger/v1/swagger.json", "CompanyEmployees API V1");
                     x.SwaggerEndpoint("/swagger/v2/swagger.json", "CompanyEmployee API V2");
                 });
-                // foreach (var description in )
-                // {
-                //     app.UseReDoc(options =>
-                //     {
-                //         options.DocumentTitle = $"API Documentation {description.GroupName}";
-                //         options.SpecUrl = $"/docs/{description.GroupName}/docs.json";
-                //         options.RoutePrefix = $"docs-{description.GroupName}";
-                //     });
-                // }
             }
             else
                 app.UseHsts();

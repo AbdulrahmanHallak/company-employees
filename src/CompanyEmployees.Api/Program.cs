@@ -61,12 +61,30 @@ public class Program
             builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection(nameof(JwtSettings)));
 
             builder.Services.ConfigureCors();
+            builder.Services.ConfigureSwagger();
 
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
+            {
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(x =>
+                {
+                    x.SwaggerEndpoint("/swagger/v1/swagger.json", "CompanyEmployees API V1");
+                    x.SwaggerEndpoint("/swagger/v2/swagger.json", "CompanyEmployee API V2");
+                });
+                // foreach (var description in )
+                // {
+                //     app.UseReDoc(options =>
+                //     {
+                //         options.DocumentTitle = $"API Documentation {description.GroupName}";
+                //         options.SpecUrl = $"/docs/{description.GroupName}/docs.json";
+                //         options.RoutePrefix = $"docs-{description.GroupName}";
+                //     });
+                // }
+            }
             else
                 app.UseHsts();
 

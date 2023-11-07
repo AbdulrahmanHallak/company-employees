@@ -1,0 +1,189 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>CompanyEmployees.Api</name>
+    </assembly>
+    <members>
+        <member name="M:CompanyEmployees.Api.Controllers.CompaniesController.GetCompanies(CompanyEmployees.Api.RequestFeatures.PaginationFilter)">
+            <summary>
+            Retrieves a paginated list of companies based on the provided pagination filter.
+            </summary>
+            <param name="filter">The pagination filter containing parameters for configuring  pagination.</param>
+            <response code="201">Returns the paginated list of companies on successful retrieval.</response>
+            <response code="401">Unauthorized - returned when the user is not authorized.</response>
+        </member>
+        <member name="M:CompanyEmployees.Api.Controllers.CompaniesController.GetCompany(System.Guid)">
+            <summary>
+            Retrieves the company identified by the provided Id.
+            </summary>
+            <param name="id">The unique identifier of the company to be retrieved.</param>
+            <response code="200">Returns the company successfully retrieved by its ID.</response>
+            <response code="404">Not Found - returned when the specified company is not found.</response>
+        </member>
+        <member name="M:CompanyEmployees.Api.Controllers.CompaniesController.CreateCompany(CompanyEmployees.Api.Models.CompanyForCreateDto)">
+            <summary>
+            Creates a new company based on the provided data.
+            </summary>
+            <param name="dto">The data necessary to create the company.</param>
+            <response code="201">Returns the newly created company along with its URI in the Location header.</response>
+            <response code="422">Unprocessable Entity - returned when the provided data is invalid.</response>
+            <response code="500">Internal Server Error - returned if an error occurs during company creation.</response>
+        </member>
+        <member name="M:CompanyEmployees.Api.Controllers.CompaniesController.DeleteCompany(System.Guid)">
+            <summary>
+            Deletes the company identified by the provided ID.
+            </summary>
+            <param name="id">The unique identifier of the company to be deleted.</param>
+            <response code="204">No Content - returned upon successful deletion of the specified company.</response>
+        </member>
+        <member name="M:CompanyEmployees.Api.Controllers.CompaniesController.UpdateCompany(System.Guid,CompanyEmployees.Api.Models.CompanyForUpdateDto)">
+            <summary>
+            Updates the details of the company identified by the provided ID.
+            </summary>
+            <param name="id">The unique identifier of the company to be updated.</param>
+            <param name="dto">The data containing updated information for the company.</param>
+            <response code="204">No Content - returned upon successful update of the specified company.</response>
+            <response code="422">Unprocessable Entity - returned when the provided data is invalid.</response>
+            <response code="404">Not Found - returned when the specified company is not found.</response>
+        </member>
+        <member name="M:CompanyEmployees.Api.Controllers.EmployeesController.GetEmployees(CompanyEmployees.Api.RequestFeatures.PaginationFilter,CompanyEmployees.Api.RequestFeatures.EmployeeParameters,System.Guid)">
+            <summary>
+            Retrieves a paginated list of employees for a specified company using pagination and filtering parameters.
+            </summary>
+            <param name="pagination">Pagination filter parameters for the list of employees.</param>
+            <param name="filter">Filter parameters for fine-grained employee query.</param>
+            <param name="companyId">The unique identifier of the company for which employees are being retrieved.</param>
+            <returns>
+            A paginated list of <see cref="T:CompanyEmployees.Api.Models.EmployeeDto"/>
+            </returns>
+            <response code="200">Returns the paginated list on successful retrieval.</response>
+            <response code="404">Not Found - returned when the specified company is not found.</response>
+        </member>
+        <member name="M:CompanyEmployees.Api.Controllers.EmployeesController.GetEmployee(System.Guid,System.Guid)">
+            <summary>
+            Retrieves a specific employee within a company based on their unique identifiers.
+            </summary>
+            <param name="companyId">The unique identifier of the company.</param>
+            <param name="id">The unique identifier of the employee.</param>
+            <response code="200">Returns the retrieved employee within the specified company.</response>
+            <response code="404">Not Found - returned when the specified company or employee is not found.</response>
+        </member>
+        <member name="M:CompanyEmployees.Api.Controllers.EmployeesController.CreatEmployee(System.Guid,CompanyEmployees.Api.Models.EmployeeForCreateDto)">
+            <summary>
+            Creates a new employee for a specified company based on provided data.
+            </summary>
+            <param name="companyId">The unique identifier of the company.</param>
+            <param name="dto">The data necessary to create the employee.</param>
+            <response code="201">Returns the newly created employee with its URI in the Location header.</response>
+            <response code="422">Unprocessable Entity - returned when the provided data is invalid.</response>
+            <response code="404">Not Found - returned when the specified company is not found.</response>
+            <response code="500">Internal Server Error - returned if an error occurs during employee creation.</response>
+        </member>
+        <member name="M:CompanyEmployees.Api.Controllers.EmployeesController.DeleteEmployee(System.Guid)">
+            <summary>
+            Deletes an employee based on the specified ID.
+            </summary>
+            <param name="id">The unique identifier of the employee to be deleted.</param>
+            <response code="204">No Content - returned upon successful deletion of the specified employee.</response>
+        </member>
+        <member name="M:CompanyEmployees.Api.Controllers.EmployeesController.UpdateEmployee(System.Guid,System.Guid,CompanyEmployees.Api.Models.EmployeeForUpdateDto)">
+            <summary>
+            Updates details of a specific employee within a company based on their unique identifiers.
+            </summary>
+            <param name="companyId">The unique identifier of the company.</param>
+            <param name="id">The unique identifier of the employee.</param>
+            <param name="dto">The data containing updated information for the employee.</param>
+            <response code="204">No Content - returned upon successful update of the specified employee.</response>
+            <response code="422">Unprocessable Entity - returned when the provided data is invalid.</response>
+            <response code="404">Not Found - returned when the specified company or employee is not found.</response>
+        </member>
+        <member name="M:CompanyEmployees.Api.Controllers.EmployeesController.PatchEmployee(System.Guid,System.Guid,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{CompanyEmployees.Api.Models.EmployeeForUpdateDto})">
+            <summary>
+            Updates specific details of an employee within a company by applying partial changes using JSON Patch operations.
+            </summary>
+            <param name="companyId">The unique identifier of the company.</param>
+            <param name="id">The unique identifier of the employee.</param>
+            <param name="pathDoc">JSON Patch Document containing partial updates for the employee.</param>
+            <response code="204">No Content - returned upon successful application of partial updates to the specified employee.</response>
+            <response code="422">Unprocessable Entity - returned when the provided data in the patch document is invalid.</response>
+            <response code="404">Not Found - returned when the specified company or employee is not found.</response>
+        </member>
+        <member name="T:CompanyEmployees.Api.Data.Migrations.InitialMigration">
+            <inheritdoc />
+        </member>
+        <member name="M:CompanyEmployees.Api.Data.Migrations.InitialMigration.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:CompanyEmployees.Api.Data.Migrations.InitialMigration.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:CompanyEmployees.Api.Data.Migrations.InitialMigration.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:CompanyEmployees.Api.Data.Migrations.SeedData">
+            <inheritdoc />
+        </member>
+        <member name="M:CompanyEmployees.Api.Data.Migrations.SeedData.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:CompanyEmployees.Api.Data.Migrations.SeedData.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:CompanyEmployees.Api.Data.Migrations.SeedData.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:CompanyEmployees.Api.Data.Migrations.CreatingIdentityTables">
+            <inheritdoc />
+        </member>
+        <member name="M:CompanyEmployees.Api.Data.Migrations.CreatingIdentityTables.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:CompanyEmployees.Api.Data.Migrations.CreatingIdentityTables.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:CompanyEmployees.Api.Data.Migrations.CreatingIdentityTables.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:CompanyEmployees.Api.Data.Migrations.AddingRolesToDb">
+            <inheritdoc />
+        </member>
+        <member name="M:CompanyEmployees.Api.Data.Migrations.AddingRolesToDb.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:CompanyEmployees.Api.Data.Migrations.AddingRolesToDb.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:CompanyEmployees.Api.Data.Migrations.AddingRolesToDb.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:CompanyEmployees.Api.Data.Migrations.AdditionalUserFiledsForRefreshToken">
+            <inheritdoc />
+        </member>
+        <member name="M:CompanyEmployees.Api.Data.Migrations.AdditionalUserFiledsForRefreshToken.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:CompanyEmployees.Api.Data.Migrations.AdditionalUserFiledsForRefreshToken.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:CompanyEmployees.Api.Data.Migrations.AdditionalUserFiledsForRefreshToken.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:CompanyEmployees.Api.Errors.Error">
+            <summary>
+            Represents an abstract base class for defining custom error types in the application.
+            </summary>
+            <remarks>
+            When extending this class, it is essential to explicitly assign values to the <see cref="P:CompanyEmployees.Api.Errors.Error.Title"/> and
+            <see cref="P:CompanyEmployees.Api.Errors.Error.StatusCode"/> properties and not have them provided through the constrcutor at the time of initialzation.
+            This helps ensure consistency and accuracy of each specific error
+            information throughout the application.
+            </remarks>
+        </member>
+        <member name="M:CompanyEmployees.Api.Errors.Error.ToProblemDetails">
+            <summary>
+            Converts the error into a <see cref="T:Microsoft.AspNetCore.Mvc.ProblemDetails"/> object for use in handling and reporting errors in api endpoints.
+            </summary>
+            <returns>A <see cref="T:Microsoft.AspNetCore.Mvc.ProblemDetails"/> object representing the error.</returns>
+        </member>
+    </members>
+</doc>

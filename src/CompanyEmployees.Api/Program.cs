@@ -1,14 +1,13 @@
 using CompanyEmployees.Api.Data;
 using CompanyEmployees.Api.Configuration;
 using CompanyEmployees.Api.Interfaces;
-using CompanyEmployees.Api.Services;
 using Microsoft.EntityFrameworkCore;
 using NLog;
 using NLog.Web;
 using FluentValidation;
 using CompanyEmployees.Api.Validators;
-using CompanyEmployees.Api.Extensions;
 using CompanyEmployees.Api.ConfigModels;
+using CompanyEmployees.Api.Data.Services;
 
 namespace CompanyEmployees.Api;
 

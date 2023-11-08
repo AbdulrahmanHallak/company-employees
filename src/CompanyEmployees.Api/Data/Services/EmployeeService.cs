@@ -1,4 +1,3 @@
-using CompanyEmployees.Api.Data;
 using CompanyEmployees.Api.Data.Entities;
 using CompanyEmployees.Api.Errors;
 using CompanyEmployees.Api.Interfaces;
@@ -9,7 +8,7 @@ using CompanyEmployees.Api.Extensions;
 using OneOf;
 using OneOf.Types;
 
-namespace CompanyEmployees.Api.Services;
+namespace CompanyEmployees.Api.Data.Services;
 public class EmployeeService : IEmployeeService
 {
     private readonly ILogger<EmployeeService> _logger;

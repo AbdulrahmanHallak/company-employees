@@ -1,4 +1,3 @@
-using CompanyEmployees.Api.Data;
 using CompanyEmployees.Api.Data.Entities;
 using CompanyEmployees.Api.Errors;
 using CompanyEmployees.Api.Interfaces;
@@ -8,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using OneOf;
 using OneOf.Types;
 
-namespace CompanyEmployees.Api.Services;
+namespace CompanyEmployees.Api.Data.Services;
 public class CompanyService : ICompanyService
 {
     private readonly AppDbContext _context;

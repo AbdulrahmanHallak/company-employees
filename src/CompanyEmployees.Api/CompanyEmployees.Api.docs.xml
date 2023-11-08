@@ -4,6 +4,19 @@
         <name>CompanyEmployees.Api</name>
     </assembly>
     <members>
+        <member name="T:CompanyEmployees.Api.Configuration.SwaggerFluentValidation">
+            <summary>
+            Swagger validation documentation with FluentValidations.
+            See <seealso cref="T:Swashbuckle.AspNetCore.SwaggerGen.ISchemaFilter" />
+            </summary>
+        </member>
+        <member name="M:CompanyEmployees.Api.Configuration.SwaggerFluentValidation.ToPascalCase(System.String)">
+            <summary>
+            To convert case as swagger may be using lower camel case.
+            </summary>
+            <param name="inputString">The input string.</param>
+            <returns>Pascal case for string.</returns>
+        </member>
         <member name="M:CompanyEmployees.Api.Controllers.CompaniesController.GetCompanies(CompanyEmployees.Api.RequestFeatures.PaginationFilter)">
             <summary>
             Retrieves a paginated list of companies based on the provided pagination filter.
@@ -182,18 +195,23 @@
             </summary>
             <returns>A <see cref="T:Microsoft.AspNetCore.Mvc.ProblemDetails"/> object representing the error.</returns>
         </member>
-        <member name="T:CompanyEmployees.Api.Extensions.SwaggerFluentValidation">
+        <member name="M:CompanyEmployees.Api.Extensions.OrderQueryBuilder.CreateOrderQuery``1(System.String)">
             <summary>
-            Swagger validation documentation with FluentValidations.
-            See <seealso cref="T:Swashbuckle.AspNetCore.SwaggerGen.ISchemaFilter" />
+            Creates an order query string based on the provided orderByQueryString for a specified type.
             </summary>
-        </member>
-        <member name="M:CompanyEmployees.Api.Extensions.SwaggerFluentValidation.ToPascalCase(System.String)">
-            <summary>
-            To convert case as swagger may be using lower camel case.
-            </summary>
-            <param name="inputString">The input string.</param>
-            <returns>Pascal case for string.</returns>
+            <typeparam name="T">The type for which the order query string is being created.</typeparam>
+            <param name="orderByQueryString">The string containing order parameters.</param>
+            <returns>
+            A string representing the order query for the specified type based on the provided parameters.
+            </returns>
+            <remarks>
+            The returned string is only useful to use with System.Linq.Dynamic.Core library,
+            and it could be empty if the properties provided in the string
+            parameter do not exist in the specified type.
+                Sample:
+                        orderByQueryString = "name desc,age"
+                        the method will return "name descending, age ascending"
+            </remarks>
         </member>
         <member name="M:CompanyEmployees.Api.Interfaces.ICompanyService.GetAsync(CompanyEmployees.Api.RequestFeatures.PaginationFilter)">
             <summary>

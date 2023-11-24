@@ -167,8 +167,16 @@ public class AuthenticationService : IAuthenticationService
         };
 
         var tokenHandler = new JwtSecurityTokenHandler();
-
-        var principal = tokenHandler.ValidateToken(token, tokenValidationParameter, out SecurityToken validToken);
+        SecurityToken validToken;
+        ClaimsPrincipal principal;
+        try
+        {
+            principal = tokenHandler.ValidateToken(token, tokenValidationParameter, out validToken);
+        }
+        catch (Exception)
+        {
+            return new InvalidTokenError("Invalid access token");
+        }
 
         var jwtSecurityToken = validToken as JwtSecurityToken;
 

@@ -1,5 +1,6 @@
 using CompanyEmployees.Api.Data.Entities;
 using CompanyEmployees.Api.Errors;
+using CompanyEmployees.Api.Extensions;
 using CompanyEmployees.Api.Interfaces;
 using CompanyEmployees.Api.Models;
 using CompanyEmployees.Api.RequestFeatures;
@@ -22,12 +23,15 @@ public class CompanyService : ICompanyService
     {
         if (filter is null) filter = new PaginationFilter();
 
-        IQueryable<CompanyDto> companies = _context.Companies.OrderBy(x => x.Name).Select(x => new CompanyDto()
-        {
-            Id = x.Id,
-            Name = x.Name,
-            FullAddress = string.Join(' ', x.Address, x.Country)
-        });
+        IQueryable<CompanyDto> companies =
+            _context.Companies
+            .Sort(filter.OrderBy)
+            .Select(x => new CompanyDto()
+            {
+                Id = x.Id,
+                Name = x.Name,
+                FullAddress = string.Join(' ', x.Address, x.Country)
+            });
 
         return await PaginatedList<CompanyDto>.CreateAsync(companies, filter.PageNumber, filter.PageSize);
     }

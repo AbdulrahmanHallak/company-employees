@@ -27,4 +27,24 @@ public static class IQueryableExt
 
         return employees.OrderBy(orderQuery);
     }
+
+    public static IQueryable<Company> Sort(this IQueryable<Company> companies, string? orderByQueryString)
+    {
+        if (string.IsNullOrWhiteSpace(orderByQueryString))
+            return companies.OrderBy(x => x.Name);
+
+        var orderQuery = OrderQueryBuilder.CreateOrderQuery<Company>(orderByQueryString);
+
+        if (string.IsNullOrWhiteSpace(orderQuery))
+            return companies.OrderBy(x => x.Name);
+
+        return companies.OrderBy(orderQuery);
+    }
+    public static IQueryable<Company> SearchByName(this IQueryable<Company> companies, string? searchTerm)
+    {
+        if (string.IsNullOrWhiteSpace(searchTerm))
+            return companies;
+
+        return companies.Where(x => x.Name.ToLower().Contains(searchTerm.Trim().ToLower()));
+    }
 }

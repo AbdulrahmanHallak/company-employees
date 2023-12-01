@@ -1,3 +1,4 @@
+using System.Collections.Immutable;
 using Microsoft.EntityFrameworkCore;
 
 namespace CompanyEmployees.Api.RequestFeatures;
@@ -37,12 +38,12 @@ public class PaginatedList<T>
     /// <param name="count">The total count of items.</param>
     /// <param name="pageIndex">The index of the current page.</param>
     /// <param name="pageSize">The number of items per page.</param>
-    public PaginatedList(List<T> items, int count, int pageIndex, int pageSize)
+    public PaginatedList(IEnumerable<T> items, int count, int pageIndex, int pageSize)
     {
         PageSize = pageSize;
         PageIndex = pageIndex;
         TotalPages = (int)Math.Ceiling(count / (double)pageSize);
-        Data = items;
+        Data = ImmutableList.CreateRange(items);
     }
 
     /// <summary>

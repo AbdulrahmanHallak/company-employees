@@ -392,7 +392,7 @@
             Gets the collection of items in the current page.
             </summary>
         </member>
-        <member name="M:CompanyEmployees.Api.RequestFeatures.PaginatedList`1.#ctor(System.Collections.Generic.List{`0},System.Int32,System.Int32,System.Int32)">
+        <member name="M:CompanyEmployees.Api.RequestFeatures.PaginatedList`1.#ctor(System.Collections.Generic.IEnumerable{`0},System.Int32,System.Int32,System.Int32)">
             <summary>
             Initializes a new instance of the PaginatedList class.
             </summary>

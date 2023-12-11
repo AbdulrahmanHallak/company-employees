@@ -36,8 +36,8 @@ public class EmployeesController : ControllerBase
     /// <response code="200">Returns the paginated list on successful retrieval.</response>
     /// <response code="404">Not Found - returned when the specified company is not found.</response>
     [HttpGet]
-    [Authorize(Roles = "Manager,Adminstrator")]
-    [ProducesResponseType(200)]
+    [Authorize(Roles = "Manager,Administrator")]
+    [ProducesResponseType(typeof(PaginatedList<EmployeeDto>), 200)]
     [ProducesResponseType(404)]
     public async Task<IActionResult> GetEmployees([FromQuery] PaginationFilter pagination, [FromQuery] EmployeeParameters filter, Guid companyId)
     {
@@ -57,8 +57,8 @@ public class EmployeesController : ControllerBase
     /// <response code="200">Returns the retrieved employee within the specified company.</response>
     /// <response code="404">Not Found - returned when the specified company or employee is not found.</response>
     [HttpGet("{id}")]
-    [Authorize(Roles = "Manager,Adminstrator")]
-    [ProducesResponseType(200)]
+    [Authorize(Roles = "Manager,Administrator")]
+    [ProducesResponseType(typeof(EmployeeDto), 200)]
     [ProducesResponseType(404)]
     public async Task<IActionResult> GetEmployee(Guid companyId, Guid id)
     {
@@ -80,8 +80,8 @@ public class EmployeesController : ControllerBase
     /// <response code="404">Not Found - returned when the specified company is not found.</response>
     /// <response code="500">Internal Server Error - returned if an error occurs during employee creation.</response>
     [HttpPost]
-    [Authorize(Roles = "Adminstrator")]
-    [ProducesResponseType(201)]
+    [Authorize(Roles = "Administrator")]
+    [ProducesResponseType(typeof(EmployeeDto), 201)]
     [ProducesResponseType(422)]
     [ProducesResponseType(404)]
     [ProducesResponseType(500)]
@@ -108,7 +108,7 @@ public class EmployeesController : ControllerBase
     /// <param name="id">The unique identifier of the employee to be deleted.</param>
     /// <response code="204">No Content - returned upon successful deletion of the specified employee.</response>
     [HttpDelete("{id}")]
-    [Authorize(Roles = "Adminstrator")]
+    [Authorize(Roles = "Administrator")]
     [ProducesResponseType(204)]
     public async Task<IActionResult> DeleteEmployee(Guid id)
     {
@@ -126,7 +126,7 @@ public class EmployeesController : ControllerBase
     /// <response code="422">Unprocessable Entity - returned when the provided data is invalid.</response>
     /// <response code="404">Not Found - returned when the specified company or employee is not found.</response>
     [HttpPut("{id}")]
-    [Authorize(Roles = "Adminstrator")]
+    [Authorize(Roles = "Administrator")]
     [ProducesResponseType(204)]
     [ProducesResponseType(422)]
     [ProducesResponseType(404)]
@@ -156,7 +156,7 @@ public class EmployeesController : ControllerBase
     /// <response code="422">Unprocessable Entity - returned when the provided data in the patch document is invalid.</response>
     /// <response code="404">Not Found - returned when the specified company or employee is not found.</response>
     [HttpPatch("{id}")]
-    [Authorize(Roles = "Adminstrator")]
+    [Authorize(Roles = "Administrator")]
     [ProducesResponseType(204)]
     [ProducesResponseType(422)]
     [ProducesResponseType(404)]

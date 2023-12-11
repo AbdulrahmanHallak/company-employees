@@ -36,7 +36,7 @@ public class CompaniesController : ControllerBase
     /// <response code="401">Unauthorized - returned when the user is not authorized.</response>
     [HttpGet]
     [Authorize(Roles = "Manager,Administrator")]
-    [ProducesResponseType(201)]
+    [ProducesResponseType(typeof(PaginatedList<CompanyDto>), 201)]
     [ProducesResponseType(401)]
     public async Task<IActionResult> GetCompanies([FromQuery] PaginationFilter filter)
     {
@@ -52,7 +52,7 @@ public class CompaniesController : ControllerBase
     /// <response code="404">Not Found - returned when the specified company is not found.</response>
     [HttpGet("{id}")]
     [Authorize(Roles = "Manager,Administrator")]
-    [ProducesResponseType(200)]
+    [ProducesResponseType(typeof(CompanyDto), 200)]
     [ProducesResponseType(404)]
     public async Task<IActionResult> GetCompany(Guid id)
     {
@@ -74,7 +74,7 @@ public class CompaniesController : ControllerBase
     /// <response code="500">Internal Server Error - returned if an error occurs during company creation.</response>
     [HttpPost]
     [Authorize(Roles = "Administrator")]
-    [ProducesResponseType(201)]
+    [ProducesResponseType(typeof(CompanyDto), 201)]
     [ProducesResponseType(422)]
     [ProducesResponseType(500)]
     public async Task<IActionResult> CreateCompany(CompanyForCreateDto dto)

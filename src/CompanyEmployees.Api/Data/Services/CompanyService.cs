@@ -19,7 +19,7 @@ public class CompanyService : ICompanyService
         _context = context;
         _logger = logger;
     }
-    public async Task<PaginatedList<CompanyDto>> GetAsync(PaginationFilter? filter)
+    public Task<PaginatedList<CompanyDto>> GetAsync(PaginationFilter? filter)
     {
         if (filter is null) filter = new PaginationFilter();
 
@@ -33,7 +33,7 @@ public class CompanyService : ICompanyService
                 FullAddress = string.Join(' ', x.Address, x.Country)
             });
 
-        return await PaginatedList<CompanyDto>.CreateAsync(companies, filter.PageNumber, filter.PageSize);
+        return PaginatedList<CompanyDto>.CreateAsync(companies, filter.PageNumber, filter.PageSize);
     }
     public async Task<OneOf<CompanyDto, NotFoundError>> GetAsync(Guid id)
     {

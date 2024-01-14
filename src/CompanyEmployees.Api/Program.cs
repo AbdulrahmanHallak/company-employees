@@ -49,7 +49,7 @@ public class Program
             builder.Services.AddScoped<IEmployeeService, EmployeeService>();
             builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 
-            builder.Services.AddValidatorsFromAssemblyContaining<CompanyForCreateValidator>();
+            builder.Services.AddValidatorsFromAssemblyContaining<CompanyForCreateValidator>(lifetime: ServiceLifetime.Singleton);
 
             builder.Services.ConfigureVersioning();
 

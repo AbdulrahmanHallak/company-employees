@@ -1,5 +1,5 @@
 namespace CompanyEmployees.Api.Configuration;
-public static class CorsServices
+public static class CorsServicesExt
 {
     public static IServiceCollection ConfigureCors(this IServiceCollection services)
                 => services.AddCors(opts =>

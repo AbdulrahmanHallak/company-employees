@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
 namespace CompanyEmployees.Api.Configuration;
-public static class JWTSettings
+public static class JWTSettingsExt
 {
     public static IServiceCollection ConfigureJWT(this IServiceCollection services, IConfiguration configuration)
     {

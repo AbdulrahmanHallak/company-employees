@@ -3,7 +3,7 @@ using CompanyEmployees.Api.Data.Entities;
 using Microsoft.AspNetCore.Identity;
 
 namespace CompanyEmployees.Api.Configuration;
-public static class IdentityService
+public static class IdentityConfigExt
 {
     public static IServiceCollection ConfigureIdentity(this IServiceCollection services)
     {

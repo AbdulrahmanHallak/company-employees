@@ -2,7 +2,7 @@ using Asp.Versioning;
 using CompanyEmployees.Api.Controllers;
 
 namespace CompanyEmployees.Api.Configuration;
-public static class ConfigVersioning
+public static class ConfigVersioningExt
 {
     public static IServiceCollection ConfigureVersioning(this IServiceCollection services)
     {

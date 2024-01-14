@@ -2,7 +2,7 @@ using System.Threading.RateLimiting;
 using NLog;
 
 namespace CompanyEmployees.Api.Configuration;
-public static class RateLimiter
+public static class RateLimiterExt
 {
     public static IServiceCollection ConfigureRateLimiting(this IServiceCollection services)
     {

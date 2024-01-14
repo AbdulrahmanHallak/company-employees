@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
 
 namespace CompanyEmployees.Api.Configuration;
-public static class ConfigSwagger
+public static class ConfigSwaggerExt
 {
     public static IServiceCollection ConfigureSwagger(this IServiceCollection service)
     {

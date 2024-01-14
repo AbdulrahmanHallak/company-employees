@@ -45,9 +45,7 @@ public class Program
 
             }).AddXmlDataContractSerializerFormatters();
 
-            builder.Services.AddScoped<ICompanyService, CompanyService>();
-            builder.Services.AddScoped<IEmployeeService, EmployeeService>();
-            builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+            builder.Services.AddServiceSuffix();
 
             builder.Services.AddValidatorsFromAssemblyContaining<CompanyForCreateValidator>(lifetime: ServiceLifetime.Singleton);
 

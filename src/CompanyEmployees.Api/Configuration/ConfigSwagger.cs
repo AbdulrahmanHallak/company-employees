@@ -11,7 +11,7 @@ public static class ConfigSwagger
         service.AddSwaggerGen(x =>
         {
             x.SupportNonNullableReferenceTypes();
-            x.SchemaFilter<SwaggerFluentValidation>(service.BuildServiceProvider());
+            x.SchemaFilter<SwaggerFluentValidation>();
             x.SwaggerDoc("v1", new OpenApiInfo
             {
                 Title = "CompanyEmployees API V1",

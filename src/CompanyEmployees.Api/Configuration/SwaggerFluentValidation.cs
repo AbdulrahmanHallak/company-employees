@@ -11,12 +11,13 @@ namespace CompanyEmployees.Api.Configuration;
 /// </summary>
 public class SwaggerFluentValidation : ISchemaFilter
 {
-    private readonly IServiceProvider _provider;
+    private readonly IServiceScopeFactory _scopeFactory;
 
-    public SwaggerFluentValidation(IServiceProvider provider) => _provider = provider;
+    public SwaggerFluentValidation(IServiceScopeFactory scopeFactory) => _scopeFactory = scopeFactory;
     public void Apply(OpenApiSchema schema, SchemaFilterContext context)
     {
-        var validator = _provider.GetService(typeof(IValidator<>).MakeGenericType(context.Type)) as IValidator;
+        using IServiceScope provider = _scopeFactory.CreateScope();
+        var validator = provider.ServiceProvider.GetRequiredService(typeof(IValidator<>).MakeGenericType(context.Type)) as IValidator;
 
         if (validator is null)
             return;
@@ -26,7 +27,7 @@ public class SwaggerFluentValidation : ISchemaFilter
 
         var validatorDescriptor = validator.CreateDescriptor();
 
-        foreach (var key in schema.Properties.Keys)
+        foreach (string key in schema.Properties.Keys)
         {
             foreach (var propertyValidator in validatorDescriptor.GetValidatorsForMember(ToPascalCase(key)))
             {

@@ -8,11 +8,11 @@ public class UserForRegisterValidator : AbstractValidator<UserForRegisterationDt
     {
         RuleFor(x => x.Email)
         .NotEmpty()
-        .Matches($@"^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$");
+        .Matches(@"^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$");
 
         RuleFor(x => x.UserName)
         .NotEmpty()
-        .Matches($@"^[a-zA-Z0-9\-._@+]+$");
+        .Matches(@"^[a-zA-Z0-9\-._@+]+$");
 
         RuleFor(x => x.FirstName).NotEmpty();
 
@@ -20,6 +20,6 @@ public class UserForRegisterValidator : AbstractValidator<UserForRegisterationDt
 
         RuleFor(x => x.Password).NotEmpty();
 
-        RuleFor(x => x.PhoneNumber).Matches(@$"^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$");
+        RuleFor(x => x.PhoneNumber).Matches(@"^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$");
     }
 }

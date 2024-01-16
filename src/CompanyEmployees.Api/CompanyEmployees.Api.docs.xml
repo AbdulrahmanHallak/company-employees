@@ -178,6 +178,18 @@
         <member name="M:CompanyEmployees.Api.Data.Migrations.AdditionalUserFiledsForRefreshToken.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
+        <member name="T:CompanyEmployees.Api.Data.Migrations.FixingNullRefreshTokenBug">
+            <inheritdoc />
+        </member>
+        <member name="M:CompanyEmployees.Api.Data.Migrations.FixingNullRefreshTokenBug.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:CompanyEmployees.Api.Data.Migrations.FixingNullRefreshTokenBug.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:CompanyEmployees.Api.Data.Migrations.FixingNullRefreshTokenBug.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
         <member name="T:CompanyEmployees.Api.Errors.Error">
             <summary>
             Represents an abstract base class for defining custom error types in the application.
